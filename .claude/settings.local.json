@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(extract-text \"10-to-10 implemenation plan.docx\")",
+      "Bash(pandoc \"PADDOCK.docx\" -t markdown)",
+      "Bash(pandoc \"10-to-10 implemenation plan.docx\" -t markdown)"
+    ]
+  }
+}
