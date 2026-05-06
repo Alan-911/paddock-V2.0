@@ -3,105 +3,257 @@
 import { useState } from 'react';
 import styles from './SocialSidebar.module.css';
 
-type SocialNetwork = 'instagram' | 'tiktok' | 'youtube';
+type Platform = 'instagram' | 'tiktok' | 'youtube';
 
-const SOCIAL_DATA = {
+/* ========= Platform icons — real colored versions ========= */
+const IGIcon = () => (
+  <svg viewBox="0 0 132 132" width="32" height="32" fill="none">
+    <defs>
+      <linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+        <stop offset="0%" stopColor="#FFDC80" />
+        <stop offset="25%" stopColor="#FCAF45" />
+        <stop offset="50%" stopColor="#F77737" />
+        <stop offset="75%" stopColor="#F56040" />
+        <stop offset="90%" stopColor="#C13584" />
+        <stop offset="100%" stopColor="#833AB4" />
+      </linearGradient>
+    </defs>
+    <rect width="132" height="132" rx="30" fill="url(#ig-grad)" />
+    <rect x="14" y="14" width="104" height="104" rx="22" stroke="#fff" strokeWidth="8" fill="none" />
+    <circle cx="66" cy="66" r="24" stroke="#fff" strokeWidth="8" fill="none" />
+    <circle cx="96" cy="36" r="7" fill="#fff" />
+  </svg>
+);
+
+const TTIcon = () => (
+  <svg viewBox="0 0 48 48" width="32" height="32" fill="none">
+    <rect width="48" height="48" rx="10" fill="#000" />
+    <path d="M33.2 17.1a7.3 7.3 0 0 1-4.4-3.9v12.3a7.7 7.7 0 1 1-5.3-7.3v4.5a3.3 3.3 0 1 0 1.8 2.9V10h3.6a7.3 7.3 0 0 0 4.3 3.7v3.4z" fill="#fff" />
+    <path d="M32.2 16.1a7.3 7.3 0 0 1-4.4-3.9v12.3a7.7 7.7 0 1 1-5.3-7.3v4.5a3.3 3.3 0 1 0 1.8 2.9V9h3.6a7.3 7.3 0 0 0 4.3 3.7v3.4z" fill="#25F4EE" />
+    <path d="M34.2 18.1a7.3 7.3 0 0 1-4.4-3.9v12.3a7.7 7.7 0 1 1-5.3-7.3v4.5a3.3 3.3 0 1 0 1.8 2.9V11h3.6a7.3 7.3 0 0 0 4.3 3.7v3.4z" fill="#FE2C55" />
+  </svg>
+);
+
+const YTIcon = () => (
+  <svg viewBox="0 0 48 48" width="32" height="32" fill="none">
+    <rect width="48" height="48" rx="10" fill="#FF0000" />
+    <path d="M38 16.8c-.3-1.2-1.2-2.1-2.4-2.4C33.5 14 24 14 24 14s-9.5 0-11.6.5c-1.2.3-2.1 1.2-2.4 2.4C9.5 18.9 9.5 24 9.5 24s0 5.1.5 7.2c.3 1.2 1.2 2.1 2.4 2.4 2.1.5 11.6.5 11.6.5s9.5 0 11.6-.5c1.2-.3 2.1-1.2 2.4-2.4.5-2.1.5-7.2.5-7.2s0-5.1-.5-7.2z" fill="#FF0000" />
+    <path d="M21 29.5V18.5l8 5.5-8 5.5z" fill="#fff" />
+  </svg>
+);
+
+/* ========= Profile data ========= */
+const PROFILES = {
   instagram: {
-    name: 'PADDOCK LOUNGE',
-    handle: '@paddock_kigali',
-    followers: '24.5K',
+    handle: '@paddocklounge_f1',
+    displayName: 'Paddock Lounge',
+    bio: '🏎️ Home of Vibes · F1-themed lounge\n📍 Kicukiro Sonatubes, Kigali\n🍾 Bookings: +250 788 471 841\n🔗 linktr.ee/Paddock_Kigali',
+    followers: '2,205',
     following: '120',
-    link: 'https://instagram.com/paddock_kigali',
-    icon: (
-      <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-    )
+    posts: '342',
+    link: 'https://instagram.com/paddocklounge_f1',
+    accent: 'linear-gradient(45deg, #FCB045, #FD1D1D, #833AB4)',
+    accentSolid: '#E1306C',
+    btnLabel: 'Follow',
+    btnBg: 'linear-gradient(45deg, #833AB4, #FD1D1D, #FCB045)',
   },
   tiktok: {
-    name: 'PADDOCK LOUNGE',
-    handle: '@paddockloungekgl',
+    handle: '@paddock_lounge_kgl',
+    displayName: 'Paddock Lounge 🇷🇼',
+    bio: 'Home of Vibes 🏎️🔥\nThe best lounge in Kigali\n#PaddockLounge #paddockf1 #homeofvibes',
     followers: '15.2K',
     following: '45',
-    link: 'https://tiktok.com/@paddockloungekgl',
-    icon: (
-      <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 2.23-.9 4.45-2.43 6.08-1.48 1.54-3.55 2.52-5.72 2.67-2.3.16-4.67-.32-6.52-1.64-1.79-1.28-3.01-3.23-3.32-5.41-.33-2.22.05-4.57 1.25-6.44 1.16-1.79 3.01-3.07 5.06-3.46 1.07-.2 2.16-.18 3.23-.05v4.21c-.6-.11-1.22-.09-1.81.04-.6.13-1.16.42-1.61.85-.46.43-.79.99-.95 1.59-.16.6-.13 1.24.08 1.81.2.56.55 1.07.99 1.44.44.38 1.01.62 1.59.7.6.08 1.22.02 1.8-.18.57-.2 1.08-.55 1.46-1 .38-.45.64-1.01.76-1.59.04-.2.06-.4.07-.6V.02h-4.32z"/></svg>
-    )
+    posts: '120',
+    link: 'https://tiktok.com/@paddock_lounge_kgl',
+    accent: 'linear-gradient(135deg, #25F4EE, #FE2C55)',
+    accentSolid: '#FE2C55',
+    btnLabel: 'Follow',
+    btnBg: '#FE2C55',
   },
   youtube: {
-    name: 'PADDOCK LOUNGE',
-    handle: '@PaddockLoungeTV',
+    handle: '@paddocklounge',
+    displayName: 'Paddock Lounge TV',
+    bio: 'Inside Kigali\'s premier F1-themed lounge.\nWeekend recaps · DJ sets · VIP nights.\nNew videos every week.',
     followers: '5.8K',
     following: '12',
-    link: 'https://youtube.com/@PaddockLoungeTV',
-    icon: (
-      <svg fill="currentColor" viewBox="0 0 24 24"><path d="M21.582,5.413c-0.254-0.949-0.998-1.693-1.947-1.947C17.918,3,12,3,12,3s-5.918,0-7.635,0.465c-0.949,0.254-1.693,0.998-1.947,1.947C1.953,7.13,1.953,12,1.953,12s0,4.87,0.465,6.587c0.254,0.949,0.998,1.693,1.947,1.947C6.082,21,12,21,12,21s5.918,0,7.635-0.465c0.949-0.254,1.693-0.998,1.947-1.947C22.047,16.87,22.047,12,22.047,12S22.047,7.13,21.582,5.413z M9.953,15.541V8.459L16.12,12L9.953,15.541z"/></svg>
-    )
-  }
+    posts: '48',
+    link: 'https://youtube.com/@paddocklounge',
+    accent: 'linear-gradient(135deg, #FF0000, #cc0000)',
+    accentSolid: '#FF0000',
+    btnLabel: 'Subscribe',
+    btnBg: '#FF0000',
+  },
+};
+
+/* ========= Sample post data — IG-style grid, TT vertical, YT horizontal ========= */
+const POSTS = {
+  instagram: [
+    { g: 'linear-gradient(135deg, #833AB4, #FD1D1D)', tag: '🏎️', likes: '1.2K', comments: 47 },
+    { g: 'linear-gradient(135deg, #FCB045, #FD1D1D)', tag: '🍾', likes: '892', comments: 23 },
+    { g: 'linear-gradient(135deg, #4f0099, #FCB045)', tag: '🔥', likes: '2.1K', comments: 89 },
+    { g: 'linear-gradient(135deg, #FD1D1D, #833AB4)', tag: '💃', likes: '743', comments: 31 },
+    { g: 'linear-gradient(135deg, #FCB045, #4f0099)', tag: '🎧', likes: '1.5K', comments: 62 },
+    { g: 'linear-gradient(135deg, #833AB4, #FCB045)', tag: '✨', likes: '956', comments: 28 },
+    { g: 'linear-gradient(135deg, #FD1D1D, #FCB045)', tag: '🥃', likes: '1.8K', comments: 71 },
+    { g: 'linear-gradient(135deg, #4f0099, #FD1D1D)', tag: '🎉', likes: '643', comments: 19 },
+    { g: 'linear-gradient(135deg, #833AB4, #4f0099)', tag: '🏁', likes: '2.4K', comments: 94 },
+  ],
+  tiktok: [
+    { g: 'linear-gradient(135deg, #25F4EE, #000)', cap: 'Weekend recap 🔥 You should not miss weekends at the best Lounge in Kigali', views: '48.2K', likes: '4.1K' },
+    { g: 'linear-gradient(135deg, #FE2C55, #25F4EE)', cap: 'Who said Wednesdays aren\'t for parties? Midweek turn-ups hit different here 🍾', views: '32.7K', likes: '2.8K' },
+    { g: 'linear-gradient(135deg, #000, #FE2C55)', cap: 'Paddock 1st Anniversary 🎉 Celebrating one year of vibes', views: '127K', likes: '12.4K' },
+    { g: 'linear-gradient(135deg, #FE2C55, #000)', cap: 'Friday night energy ⚡ Epic Fridays at Paddock', views: '67.1K', likes: '5.9K' },
+    { g: 'linear-gradient(135deg, #25F4EE, #FE2C55)', cap: 'Saturday turnup 🔥 #homeofvibes', views: '54.3K', likes: '4.7K' },
+    { g: 'linear-gradient(135deg, #000, #25F4EE)', cap: 'Ladies night affair 💃 Thursdays we slay', views: '41.8K', likes: '3.6K' },
+  ],
+  youtube: [
+    { g: 'linear-gradient(135deg, #1a0000, #FF0000)', title: 'Inside Paddock Lounge — Kigali\'s F1-themed Hotspot', views: '12.4K', time: '3 days ago', dur: '4:32' },
+    { g: 'linear-gradient(135deg, #FF0000, #4a0000)', title: 'Weekend Recap — Best Moments at Paddock', views: '8.1K', time: '1 week ago', dur: '6:15' },
+    { g: 'linear-gradient(135deg, #4a0000, #FF0000)', title: 'How We Make Our Signature Cocktails', views: '5.7K', time: '2 weeks ago', dur: '8:48' },
+    { g: 'linear-gradient(135deg, #1a0000, #cc0000)', title: 'Behind the Scenes — VIP Section Tour', views: '11.2K', time: '3 weeks ago', dur: '5:21' },
+    { g: 'linear-gradient(135deg, #FF0000, #1a0000)', title: 'DJ Krest Live at Epic Fridays', views: '24.6K', time: '1 month ago', dur: '12:04' },
+    { g: 'linear-gradient(135deg, #cc0000, #FF0000)', title: 'Paddock 1 Year Anniversary Highlights', views: '38.9K', time: '2 months ago', dur: '7:33' },
+  ],
 };
 
 export default function SocialSidebar() {
-  const [activeCard, setActiveCard] = useState<SocialNetwork | null>(null);
+  const [active, setActive] = useState<Platform>('instagram');
 
-  const handleToggle = (network: SocialNetwork) => {
-    if (activeCard === network) {
-      setActiveCard(null);
-    } else {
-      setActiveCard(network);
-    }
-  };
+  const profile = PROFILES[active];
+  const posts = POSTS[active];
 
   return (
-    <div className={styles.sidebar}>
-      {(Object.keys(SOCIAL_DATA) as SocialNetwork[]).map((network) => {
-        const data = SOCIAL_DATA[network];
-        const isActive = activeCard === network;
+    <div className={styles.wrapper}>
+      {/* Icon tabs — vertical left column, aligned to top */}
+      <div className={styles.iconTabs}>
+        {(['instagram', 'tiktok', 'youtube'] as Platform[]).map((p) => (
+          <button
+            key={p}
+            className={`${styles.iconTab} ${active === p ? styles.iconTabActive : ''} ${styles[`icon_${p}`]}`}
+            onClick={() => setActive(p)}
+            aria-label={`Show ${p}`}
+          >
+            <span className={styles.iconWrap}>
+              {p === 'instagram' && <IGIcon />}
+              {p === 'tiktok' && <TTIcon />}
+              {p === 'youtube' && <YTIcon />}
+            </span>
+          </button>
+        ))}
+      </div>
 
-        return (
-          <div key={network} className={styles.socialWrapper}>
-            {/* Popover Profile Card */}
-            <div className={`${styles.profileCard} ${isActive ? styles.visible : ''}`}>
-              <div className={styles.cardHeader}>
-                <img 
-                  src="/images/logo_fitz.png" // We'll assume you have a logo image or fallback to a default
-                  alt="Paddock Logo" 
-                  className={styles.avatar}
-                  onError={(e) => {
-                    // Fallback to Unsplash if logo fails to load
-                    e.currentTarget.src = "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=100";
-                  }}
-                />
-                <div className={styles.accountInfo}>
-                  <span className={styles.accountName}>{data.name}</span>
-                  <span className={styles.accountHandle}>{data.handle}</span>
-                </div>
-              </div>
-              
-              <div className={styles.stats}>
-                <div className={styles.statItem}>
-                  <span className={styles.statValue}>{data.followers}</span>
-                  <span className={styles.statLabel}>Followers</span>
-                </div>
-                <div className={styles.statItem}>
-                  <span className={styles.statValue}>{data.following}</span>
-                  <span className={styles.statLabel}>Following</span>
-                </div>
-              </div>
+      {/* Panel — always visible, shows active platform */}
+      <div className={styles.panel}>
+        {/* Header with platform accent */}
+        <div className={styles.panelHeader} style={{ background: profile.accent }}>
+          <span className={styles.headerHandle}>{profile.handle}</span>
+          <a
+            href={profile.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.followBtn}
+            style={{ background: profile.btnBg }}
+          >
+            {profile.btnLabel}
+          </a>
+        </div>
 
-              <a href={data.link} target="_blank" rel="noopener noreferrer" className={styles.followBtn}>
-                Follow
-              </a>
-            </div>
-
-            {/* Icon Button */}
-            <button 
-              className={`${styles.iconBtn} ${isActive ? styles.active : ''}`}
-              onClick={() => handleToggle(network)}
-              aria-label={`Open ${network} profile`}
-            >
-              {data.icon}
-            </button>
+        {/* Profile stats */}
+        <div className={styles.profileBar}>
+          <div className={styles.stat}>
+            <span className={styles.statValue}>{profile.posts}</span>
+            <span className={styles.statLabel}>{active === 'youtube' ? 'Videos' : 'Posts'}</span>
           </div>
-        );
-      })}
+          <div className={styles.stat}>
+            <span className={styles.statValue}>{profile.followers}</span>
+            <span className={styles.statLabel}>{active === 'youtube' ? 'Subscribers' : 'Followers'}</span>
+          </div>
+          <div className={styles.stat}>
+            <span className={styles.statValue}>{profile.following}</span>
+            <span className={styles.statLabel}>Following</span>
+          </div>
+        </div>
+
+        {/* Scrollable feed */}
+        <div className={styles.panelBody}>
+          {active === 'instagram' && (
+            <div className={styles.igFeed}>
+              {posts.map((p, i) => {
+                const post = p as { g: string; tag: string; likes: string; comments: number };
+                return (
+                  <a
+                    key={i}
+                    href={profile.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.igPost}
+                  >
+                    <div className={styles.igPostImage} style={{ background: post.g }}>
+                      <span className={styles.igEmoji}>{post.tag}</span>
+                    </div>
+                    <div className={styles.igPostFooter}>
+                      <span className={styles.igAction}>♡ {post.likes}</span>
+                      <span className={styles.igAction}>💬 {post.comments}</span>
+                    </div>
+                  </a>
+                );
+              })}
+            </div>
+          )}
+
+          {active === 'tiktok' && (
+            <div className={styles.ttList}>
+              {posts.map((p, i) => {
+                const post = p as { g: string; cap: string; views: string; likes: string };
+                return (
+                  <a
+                    key={i}
+                    href={profile.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.ttItem}
+                  >
+                    <div className={styles.ttThumb} style={{ background: post.g }}>
+                      <span className={styles.ttPlay}>▶</span>
+                      <span className={styles.ttViews}>▶ {post.views}</span>
+                    </div>
+                    <div className={styles.ttInfo}>
+                      <p className={styles.ttCap}>{post.cap}</p>
+                      <p className={styles.ttMeta}>♡ {post.likes}</p>
+                    </div>
+                  </a>
+                );
+              })}
+            </div>
+          )}
+
+          {active === 'youtube' && (
+            <div className={styles.ytList}>
+              {posts.map((p, i) => {
+                const post = p as { g: string; title: string; views: string; time: string; dur: string };
+                return (
+                  <a
+                    key={i}
+                    href={profile.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.ytItem}
+                  >
+                    <div className={styles.ytThumb} style={{ background: post.g }}>
+                      <span className={styles.ytPlay}>▶</span>
+                      <span className={styles.ytDur}>{post.dur}</span>
+                    </div>
+                    <div className={styles.ytInfo}>
+                      <p className={styles.ytTitle}>{post.title}</p>
+                      <p className={styles.ytMeta}>{post.views} views · {post.time}</p>
+                    </div>
+                  </a>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

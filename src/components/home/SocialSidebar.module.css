@@ -1,144 +1,421 @@
-.sidebar {
+/* ============================================================
+   SocialSidebar — Inline panel with icon tabs on top
+   Always visible in hero, IG open by default
+   ============================================================ */
+
+/* Outer wrapper — row layout: icons left, panel right */
+.wrapper {
+  display: flex;
+  align-items: flex-start;
+  width: 320px;
+  height: 390px;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+/* ====== Icon tabs (vertical column on left, aligned to top) ====== */
+.iconTabs {
   display: flex;
   flex-direction: column;
-  gap: 16px;
   align-items: center;
-}
-
-.socialWrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.iconBtn {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  gap: 6px;
+  padding: 8px 4px;
   z-index: 2;
 }
 
-.iconBtn:hover, .iconBtn.active {
-  background: var(--color-accent-gold);
-  color: #000;
-  transform: scale(1.1);
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+.iconTab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  background: rgba(8, 8, 10, 0.6);
+  border: none;
+  border-radius: 12px 0 0 12px;
+  cursor: pointer;
+  color: #fff;
+  transition: background 0.2s, transform 0.2s, opacity 0.2s;
+  opacity: 0.5;
 }
 
-.iconBtn svg {
-  width: 20px;
-  height: 20px;
+.iconTab:hover {
+  opacity: 0.85;
+  background: rgba(15, 15, 18, 0.8);
+  transform: scale(1.08);
 }
 
-/* Profile Popover Card */
-.profileCard {
-  position: absolute;
-  left: 70px; /* Push it to the right of the button */
-  width: 280px;
-  background: #0a0a0a;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  border-radius: 12px;
-  padding: 20px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateX(-20px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
-  z-index: 1;
-}
-
-.profileCard.visible {
+.iconTabActive {
   opacity: 1;
-  visibility: visible;
-  transform: translateX(0);
+  background: rgba(15, 15, 18, 0.9);
 }
 
-.cardHeader {
+.icon_instagram.iconTabActive {
+  box-shadow: inset 2px 0 0 #E1306C;
+}
+
+.icon_tiktok.iconTabActive {
+  box-shadow: inset 2px 0 0 #FE2C55;
+}
+
+.icon_youtube.iconTabActive {
+  box-shadow: inset 2px 0 0 #FF0000;
+}
+
+.iconWrap {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 20px;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
 }
 
-.avatar {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  border: 2px solid var(--color-accent-gold);
-  object-fit: cover;
+.iconWrap svg {
+  width: 30px;
+  height: 30px;
 }
 
-.accountInfo {
-  display: flex;
-  flex-direction: column;
-}
-
-.accountName {
-  font-family: var(--font-heading);
-  font-size: 16px;
-  color: #fff;
-  letter-spacing: 0.05em;
-}
-
-.accountHandle {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.stats {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  padding: 16px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.statItem {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.statValue {
-  font-weight: 700;
-  font-size: 16px;
-  color: #fff;
-}
-
-.statLabel {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+.iconLabel {
+  font-size: 7px;
+  font-weight: 600;
   color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.iconTabActive .iconLabel {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ====== Panel (main feed area, to the right of icons) ====== */
+.panel {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0 14px 14px 0;
+  overflow: hidden;
+}
+
+/* ====== Panel Header (platform accent stripe) ====== */
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  flex-shrink: 0;
+}
+
+.headerHandle {
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
 }
 
 .followBtn {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  background: var(--color-accent-gold);
-  color: #000;
-  text-align: center;
+  font-size: 10px;
   font-weight: 700;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  color: #fff;
+  padding: 5px 14px;
   border-radius: 6px;
   text-decoration: none;
-  transition: background 0.2s ease;
+  transition: opacity 0.2s, transform 0.2s;
+  white-space: nowrap;
 }
 
 .followBtn:hover {
-  background: #fff;
+  opacity: 0.85;
+  transform: scale(1.04);
+}
+
+/* ====== Profile stats bar ====== */
+.profileBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px 12px;
+  background: rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.statValue {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.statLabel {
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* ====== Scrollable Feed Body ====== */
+.panelBody {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.panelBody::-webkit-scrollbar {
+  width: 3px;
+}
+
+.panelBody::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.panelBody::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+}
+
+/* ====== IG Feed (scrollable individual posts, transparent gaps) ====== */
+.igFeed {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px;
+}
+
+.igPost {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.igPost:hover {
+  transform: scale(1.02);
+}
+
+.igPostImage {
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.igEmoji {
+  font-size: 36px;
+}
+
+.igPostFooter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 10px;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.igAction {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.igPost:hover .igAction {
+  color: #fff;
+}
+
+/* ====== TikTok feed (vertical list, transparent gaps) ====== */
+.ttList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px;
+}
+
+.ttItem {
+  display: flex;
+  gap: 10px;
+  padding: 8px 10px;
+  text-decoration: none;
+  align-items: flex-start;
+  transition: background 0.2s;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+}
+
+.ttItem:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.ttThumb {
+  position: relative;
+  width: 52px;
+  aspect-ratio: 9 / 16;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ttPlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+.ttViews {
+  position: absolute;
+  bottom: 3px;
+  left: 3px;
+  font-size: 7px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  white-space: nowrap;
+}
+
+.ttInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.ttCap {
+  font-size: 10px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 0 3px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ttMeta {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0;
+}
+
+/* ====== YouTube feed (vertical list, transparent gaps) ====== */
+.ytList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px;
+}
+
+.ytItem {
+  display: flex;
+  gap: 10px;
+  padding: 8px 10px;
+  text-decoration: none;
+  align-items: flex-start;
+  transition: background 0.2s;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+}
+
+.ytItem:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.ytThumb {
+  position: relative;
+  width: 90px;
+  aspect-ratio: 16 / 9;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ytPlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 22px;
+  height: 16px;
+  background: rgba(255, 0, 0, 0.9);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 7px;
+  color: #fff;
+}
+
+.ytDur {
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  background: rgba(0, 0, 0, 0.85);
+  border-radius: 2px;
+  font-size: 8px;
+  font-weight: 700;
+  color: #fff;
+  padding: 1px 3px;
+}
+
+.ytInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.ytTitle {
+  font-size: 10px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 3px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-weight: 500;
+}
+
+.ytMeta {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0;
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 1100px) {
+  .wrapper {
+    width: 260px;
+    height: 350px;
+  }
+}
+
+@media (max-width: 900px) {
+  .wrapper {
+    width: 100%;
+    max-width: 320px;
+    height: 300px;
+    align-self: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .wrapper { display: none; }
 }

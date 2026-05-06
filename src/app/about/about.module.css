@@ -1,0 +1,179 @@
+.pageContainer {
+  position: relative;
+  min-height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: #000;
+}
+
+.backgroundLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.visualImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.visualOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.1); /* Very minimal overlay to let the beautiful image shine */
+}
+
+.contentOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  padding-top: 80px;
+  /* Account for navbar */
+}
+
+/* Left side shadow box */
+.shadowBox {
+  width: 45%;
+  height: 100%;
+  /* Linear gradient from black to transparent so bottles peek through */
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.6) 70%, transparent 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 4vw 80px 8vw;
+  position: relative;
+}
+
+.emptySpace {
+  width: 55%;
+  height: 100%;
+}
+
+.scrollWindow {
+  position: relative;
+  flex: 1;
+  /* Take up remaining height instead of fixed 400px */
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Fade out at the bottom so text magically appears from the line */
+  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+}
+
+.scrollContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  /* Locks the text securely to the bottom area */
+  min-height: 100%;
+  padding-bottom: 8px; /* Removed massive gap so divider line sits tight against text */
+  will-change: transform;
+}
+
+.headline {
+  font-family: var(--font-heading);
+  font-size: clamp(32px, 4vw, 56px);
+  color: #fff;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 32px;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+}
+
+.storyBlock {
+  border-left: 2px solid rgba(255, 255, 255, 0.8);
+  padding-left: 16px;
+  margin-bottom: 24px; /* Space between the paragraph block and 'THIS IS PADDOCK' */
+}
+
+.storyText {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.95);
+  /* Much brighter for clear visibility */
+  line-height: 1.6;
+  margin-bottom: 8px; /* Reduced vertical gap between lines */
+  max-width: 480px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  text-align: justify; /* Justify text to form block shape naturally */
+}
+
+.finalLock {
+  font-family: var(--font-heading);
+  font-size: 14px; /* Made smaller as requested */
+  color: var(--color-accent-gold); /* Yellow */
+  letter-spacing: 0.3em;
+  font-weight: 700;
+  margin-top: 16px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  display: inline-block;
+  border-bottom: 1px solid var(--color-accent-gold); /* 'with its line' */
+  padding-bottom: 4px;
+}
+
+.signatureBlock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  opacity: 1; /* Made fully opaque */
+}
+
+.location {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+  font-family: var(--font-heading);
+  font-size: 22px;
+  letter-spacing: 0.2em;
+  font-weight: 800;
+  text-transform: uppercase;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 255, 255, 0.15);
+}
+
+.rwandaFlag {
+  flex-shrink: 0;
+  width: 36px;
+  height: 24px;
+  border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 1024px) {
+  .shadowBox {
+    width: 60%;
+    padding: 0 4vw 60px 6vw;
+  }
+
+  .emptySpace {
+    width: 40%;
+  }
+}
+
+@media (max-width: 768px) {
+  .shadowBox {
+    width: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 60%, transparent 100%);
+    border-right: none;
+    padding: 0 24px 60px;
+    justify-content: flex-end;
+  }
+
+  .emptySpace {
+    display: none;
+  }
+
+  .scrollWindow {
+    flex: 1;
+    min-height: 350px;
+  }
+}

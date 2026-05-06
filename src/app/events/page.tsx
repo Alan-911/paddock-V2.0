@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./events.module.css";
 import { djLineup } from "@/lib/data/djLineup";
+import ResidentDJsSection from "@/components/home/ResidentDJsSection";
 
 export const metadata = {
   title: "Events | Paddock Lounge Kigali",
@@ -62,6 +63,9 @@ export default function EventsPage() {
           </div>
         ))}
       </section>
+
+      {/* The Talent Section */}
+      <ResidentDJsSection />
     </div>
   );
 }

@@ -33,13 +33,19 @@
 
 .galleryGrid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 1024px) {
   .galleryGrid {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .galleryGrid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -62,32 +68,32 @@
 .cardImageWrapper {
   position: relative;
   width: 100%;
-  height: 250px;
+  height: 160px;
 }
 
 .cardContent {
-  padding: 2rem;
+  padding: 16px 18px 18px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 }
 
 .cardTitle {
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   color: #fff;
-  margin-bottom: 0.5rem;
+  margin-bottom: 4px;
 }
 
 .cardPrice {
   color: var(--color-accent-gold);
-  font-size: 1.25rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  margin-bottom: 1.5rem;
+  margin-bottom: 12px;
 }
 
 .featureList {
   list-style: none;
-  margin-bottom: 2rem;
+  margin-bottom: 14px;
   flex-grow: 1;
 }
 
@@ -95,23 +101,26 @@
   display: flex;
   align-items: center;
   color: var(--color-text-secondary);
-  margin-bottom: 0.75rem;
+  margin-bottom: 6px;
+  font-size: 0.82rem;
 }
 
 .featureIcon {
   color: var(--color-accent-gold);
-  margin-right: 0.75rem;
-  width: 1.25rem;
-  height: 1.25rem;
+  margin-right: 8px;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
 }
 
 .bookButton {
   width: 100%;
-  padding: 1rem;
+  padding: 10px;
   background-color: transparent;
   border: 1px solid var(--color-accent-gold);
   color: var(--color-accent-gold);
   border-radius: 8px;
+  font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;

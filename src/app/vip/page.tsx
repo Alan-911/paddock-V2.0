@@ -11,7 +11,7 @@ const VIP_TABLES = [
   {
     id: 1,
     title: "The Paddock VVIP Suite",
-    image: "https://images.unsplash.com/photo-1574096079513-d8259312b785?auto=format&fit=crop&q=80&w=1000",
+    image: "https://images.unsplash.com/photo-1572116469696-31de0f17cc34?auto=format&fit=crop&q=80&w=1000",
     price: "RWF 500,000",
     features: [
       "Seats up to 12 guests",
@@ -24,7 +24,7 @@ const VIP_TABLES = [
   {
     id: 2,
     title: "DJ Booth VIP Section",
-    image: "https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?auto=format&fit=crop&q=80&w=1000",
+    image: "https://images.unsplash.com/photo-1598387993441-a364f854c3e1?auto=format&fit=crop&q=80&w=1000",
     price: "RWF 350,000",
     features: [
       "Seats up to 8 guests",
@@ -37,7 +37,7 @@ const VIP_TABLES = [
   {
     id: 3,
     title: "The Mezzanine Table",
-    image: "https://images.unsplash.com/photo-1545128485-c400e7702796?auto=format&fit=crop&q=80&w=1000",
+    image: "https://images.unsplash.com/photo-1560624052-449f5ddf0c31?auto=format&fit=crop&q=80&w=1000",
     price: "RWF 250,000",
     features: [
       "Seats up to 6 guests",
@@ -50,7 +50,7 @@ const VIP_TABLES = [
   {
     id: 4,
     title: "The Grandstand Table",
-    image: "https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?auto=format&fit=crop&q=80&w=1000",
+    image: "https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&q=80&w=1000",
     price: "RWF 200,000",
     features: [
       "Seats up to 5 guests",
@@ -63,7 +63,7 @@ const VIP_TABLES = [
   {
     id: 5,
     title: "The Trackside Table",
-    image: "https://images.unsplash.com/photo-1582103287241-2762adcb6c63?auto=format&fit=crop&q=80&w=1000",
+    image: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=1000",
     price: "RWF 150,000",
     features: [
       "Seats up to 4 guests",
@@ -76,7 +76,7 @@ const VIP_TABLES = [
   {
     id: 6,
     title: "The Main Floor Table",
-    image: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=80&w=1000",
+    image: "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?auto=format&fit=crop&q=80&w=1000",
     price: "RWF 100,000",
     features: [
       "Seats up to 4 guests",

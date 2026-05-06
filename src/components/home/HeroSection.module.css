@@ -52,11 +52,23 @@
   z-index: 2;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 60px; /* Space between title and socials */
+  justify-content: space-between;
+  gap: 40px;
   width: 100%;
-  max-width: 1200px;
-  padding: 0 24px;
+  max-width: 1380px;
+  padding: 0 16px 0 48px;
+}
+
+@media (max-width: 1200px) {
+  .heroLayoutWrapper { gap: 30px; padding: 0 12px 0 32px; }
+}
+@media (max-width: 900px) {
+  .heroLayoutWrapper {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 0 24px;
+  }
 }
 
 /* Content */
@@ -68,11 +80,13 @@
   max-width: 760px;
 }
 
-/* Social Column */
+/* Social Column — pushed to far right, slightly below center */
 .socialColumn {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  margin-right: -32px;
+  margin-top: 40px;
 }
 
 .eyebrowContainer {

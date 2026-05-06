@@ -13,7 +13,7 @@ const navLinks = [
   { label: 'Menu', href: '/menu' },
   { label: 'Events', href: '/events' },
   { label: 'VIP', href: '/vip' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'About', href: '/about' },
 ];
 
 export default function Navbar() {

@@ -1,0 +1,79 @@
+.bgArea {
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.bgImage {
+  position: absolute;
+  inset: 0;
+  background: url('/bar-bottles.png') center center / cover no-repeat;
+  filter: brightness(0.8) contrast(1.1) grayscale(0.15);
+  z-index: 0;
+}
+
+.bgOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(3, 3, 3, 0.35) 0%,
+    rgba(3, 3, 3, 0.25) 50%,
+    rgba(3, 3, 3, 0.5) 100%
+  );
+  z-index: 0;
+}
+
+.menuCTA {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 110px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.menuTag {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-accent-gold);
+  opacity: 0.9;
+}
+
+.menuHeading {
+  font-family: var(--font-heading);
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin-bottom: 12px;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.6);
+}
+
+.menuBtn {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #000;
+  background: #fff;
+  padding: 18px 48px;
+  border-radius: 3px;
+  transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.menuBtn:hover {
+  opacity: 0.92;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.5);
+}
+
+@media (max-width: 600px) {
+  .menuCTA { padding: 80px 20px; }
+}

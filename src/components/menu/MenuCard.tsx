@@ -4,8 +4,8 @@ import styles from '@/app/menu/menu.module.css';
 interface MenuCardProps {
   title: string;
   image: string;
-  prepTime: string;
-  rating: number;
+  prepTime?: string;
+  rating?: number;
   description: string;
   price: string;
 }
