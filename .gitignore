@@ -39,3 +39,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Ignore local docs and scripts
+*.docx
+*.pdf
+*.txt
+*.py
+*.jpg
+scratch/
+
+*.png
+!public/*.png
+!public/**/*.png

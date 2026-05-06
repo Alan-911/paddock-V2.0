@@ -1,0 +1,227 @@
+.footer {
+  position: relative;
+}
+
+/* ============================================
+   ONE bottle image area — wraps menuCTA + links
+   ============================================ */
+.bgArea {
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Bottle shelf image — brighter so it's actually visible */
+.bgImage {
+  position: absolute;
+  inset: 0;
+  background: url('/bar-bottles.png') center center / cover no-repeat;
+  filter: brightness(0.8) contrast(1.1) grayscale(0.15);
+  z-index: 0;
+}
+
+/* Soft overlay — keeps text readable but lets the bottles show through */
+.bgOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(3, 3, 3, 0.35) 0%,
+    rgba(3, 3, 3, 0.25) 50%,
+    rgba(3, 3, 3, 0.5) 100%
+  );
+  z-index: 0;
+}
+
+/* ============================================
+   Menu CTA — top of bg area
+   ============================================ */
+.menuCTA {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 110px 32px 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.menuTag {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-accent-gold);
+  opacity: 0.9;
+}
+
+.menuHeading {
+  font-family: var(--font-heading);
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin-bottom: 12px;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.6);
+}
+
+.menuBtn {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #000;
+  background: #fff;
+  padding: 18px 48px;
+  border-radius: 3px;
+  transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.menuBtn:hover {
+  opacity: 0.92;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.5);
+}
+
+/* ============================================
+   Address / link columns
+   ============================================ */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding: 70px 0 80px;
+}
+
+.brand {}
+
+.logo {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--color-accent-gold);
+  margin-bottom: 16px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+
+.tagline {
+  font-size: 13px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 28px;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+}
+
+.socials {
+  display: flex;
+  gap: 12px;
+}
+
+.social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.75);
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.social:hover {
+  background: rgba(0,0,0,0.7);
+  border-color: var(--color-accent-gold);
+  color: var(--color-accent-gold);
+}
+
+.linksGroup h4 {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-accent-gold);
+  margin-bottom: 22px;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+}
+
+.linksGroup ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.linksGroup li,
+.linksGroup a {
+  font-size: 13px;
+  color: rgba(255,255,255,0.78);
+  transition: color 0.2s;
+  line-height: 1.4;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+}
+.linksGroup a:hover { color: #fff; }
+
+/* ============================================
+   Pure black copyright bar — NO bottle image
+   ============================================ */
+.copyrightBar {
+  background: #000;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.copyrightInner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 22px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.credit {
+  letter-spacing: 0.05em;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 900px) {
+  .top {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  .menuCTA { padding: 80px 20px 60px; }
+  .container { padding: 0 20px; }
+  .top {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding: 56px 0 60px;
+  }
+  .copyrightInner {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+    padding: 22px 20px 100px;
+  }
+}

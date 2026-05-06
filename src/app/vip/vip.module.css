@@ -1,0 +1,217 @@
+.pageContainer {
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  padding-top: 6rem;
+  color: var(--color-text-primary);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 4rem;
+  padding: 0 1rem;
+}
+
+.title {
+  font-size: 3.5rem;
+  color: var(--color-accent-gold);
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  color: var(--color-text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 1.125rem;
+}
+
+/* VIP Gallery Section */
+.gallerySection {
+  max-width: 1200px;
+  margin: 0 auto 6rem auto;
+  padding: 0 1.5rem;
+}
+
+.galleryGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .galleryGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.vipCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+.vipCard:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-accent-gold);
+  box-shadow: var(--shadow-glow);
+}
+
+.cardImageWrapper {
+  position: relative;
+  width: 100%;
+  height: 250px;
+}
+
+.cardContent {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.cardPrice {
+  color: var(--color-accent-gold);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.featureList {
+  list-style: none;
+  margin-bottom: 2rem;
+  flex-grow: 1;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.featureIcon {
+  color: var(--color-accent-gold);
+  margin-right: 0.75rem;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.bookButton {
+  width: 100%;
+  padding: 1rem;
+  background-color: transparent;
+  border: 1px solid var(--color-accent-gold);
+  color: var(--color-accent-gold);
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bookButton:hover {
+  background-color: var(--color-accent-gold);
+  color: #000;
+}
+
+/* Contact / Reservation Section (The Office Aesthetic) */
+.contactSection {
+  position: relative;
+  width: 100%;
+  padding: 8rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+  overflow: hidden;
+}
+
+.bgOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7); /* Dark overlay to match the vintage feel */
+  z-index: 1;
+}
+
+.bgImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+  filter: grayscale(100%) contrast(120%);
+}
+
+.contactBox {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.elegantBorder {
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  padding: 1rem 3rem;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.elegantTitle {
+  color: #fff;
+  font-size: 2.5rem;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.elegantSubtitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.125rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.02em;
+}
+
+.learnMore {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: underline;
+  margin-bottom: 3rem;
+  font-size: 0.875rem;
+  transition: color 0.2s ease;
+}
+
+.learnMore:hover {
+  color: #fff;
+}
+
+.reserveButton {
+  background-color: #fff;
+  color: #000;
+  padding: 1rem 3rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.reserveButton:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
