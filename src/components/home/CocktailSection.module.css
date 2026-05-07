@@ -221,6 +221,10 @@
 }
 
 @media (max-width: 768px) {
+  .section {
+    min-height: auto;
+    padding: 56px 0 40px;
+  }
   /* On touch devices, hover doesn't work — show all items clearly */
   .listItem {
     opacity: 0.85;
@@ -232,28 +236,42 @@
   .activeItem .itemHeader {
     transform: translateX(10px);
   }
+  /* Hide second column — only show 4 items on mobile */
+  .cocktailColumn:last-child {
+    display: none;
+  }
+  .header { margin-bottom: 32px; }
+  .interactiveContainer { margin-bottom: 40px; }
+  .cocktailColumn { gap: 4px; }
+  .listItem { padding: 12px 0; }
+  .pourStrip { padding: 12px 0; }
 }
 
 @media (max-width: 600px) {
-  .section { padding: 60px 0 40px; }
+  .section { padding: 44px 0 32px; }
   .container { padding: 0 20px; }
-  .header { margin-bottom: 40px; }
-  .title { margin-bottom: 14px; }
-  .subtitle { font-size: 13px; }
+  .header { margin-bottom: 24px; }
+  .title { margin-bottom: 10px; }
+  .subtitle { font-size: 13px; line-height: 1.6; }
+  .interactiveContainer { margin-bottom: 32px; }
   .activeItem .itemHeader { transform: translateX(8px); }
   .itemDetails { padding-left: 24px; }
-  .itemName { font-size: clamp(20px, 5vw, 26px); }
+  .itemName { font-size: clamp(20px, 5vw, 24px); }
+  .activeItem .itemDetails { margin-top: 10px; max-height: 80px; }
+  .itemDesc { font-size: 13px; }
   .pourText { font-size: 10px; gap: 24px; }
+  .pourStrip { padding: 10px 0; }
 }
 
 @media (max-width: 400px) {
-  .section { padding: 48px 0 32px; }
+  .section { padding: 36px 0 24px; }
   .container { padding: 0 16px; }
-  .header { margin-bottom: 32px; }
+  .header { margin-bottom: 20px; }
+  .interactiveContainer { margin-bottom: 24px; }
   .activeItem .itemHeader { transform: translateX(6px); }
   .itemDetails { padding-left: 20px; }
   .itemName { font-size: 19px; }
   .itemNumber { font-size: 15px; }
   .itemHeader { gap: 14px; }
-  .listItem { padding: 12px 0; }
+  .listItem { padding: 10px 0; }
 }

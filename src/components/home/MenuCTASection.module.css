@@ -75,12 +75,14 @@
 }
 
 @media (max-width: 600px) {
-  .menuCTA { padding: 72px 20px; gap: 14px; }
+  .menuCTA { padding: 56px 20px; gap: 12px; }
   .menuTag { font-size: 10px; letter-spacing: 0.2em; }
-  .menuBtn { padding: 16px 36px; font-size: 11px; }
+  .menuHeading { margin-bottom: 8px; }
+  .menuBtn { padding: 14px 32px; font-size: 11px; }
 }
 
 @media (max-width: 400px) {
-  .menuCTA { padding: 56px 16px; }
-  .menuBtn { padding: 14px 32px; }
+  .menuCTA { padding: 44px 16px; gap: 10px; }
+  .menuHeading { margin-bottom: 6px; }
+  .menuBtn { padding: 13px 28px; font-size: 10px; }
 }

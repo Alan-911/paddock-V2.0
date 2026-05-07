@@ -158,43 +158,46 @@
 }
 
 @media (max-width: 600px) {
-  .section { padding: 60px 0 40px; }
+  .section { padding: 44px 0 32px; }
   .container { padding: 0 20px; }
-  .header { margin-bottom: 36px; }
+  .header { margin-bottom: 24px; }
   .grid {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    gap: 14px;
-    padding-bottom: 16px;
+    gap: 12px;
+    padding-bottom: 12px;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none;
   }
   .grid::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
+    display: none;
   }
   .card {
-    min-width: 82vw;
+    min-width: 78vw;
     scroll-snap-align: center;
-    padding: 24px;
+    padding: 20px;
+    gap: 14px;
   }
-  .dateNum { font-size: 36px; }
-  .eventTitle { font-size: 19px; }
-  .eventDesc { font-size: 12px; }
-  .footer { margin-top: 36px; }
+  .dateNum { font-size: 32px; }
+  .eventTitle { font-size: 18px; margin-bottom: 6px; }
+  .eventDesc { font-size: 12px; line-height: 1.5; }
+  .cardLink { font-size: 10px; }
+  .footer { margin-top: 24px; }
 }
 
 @media (max-width: 400px) {
-  .section { padding: 48px 0 32px; }
+  .section { padding: 36px 0 24px; }
   .container { padding: 0 16px; }
-  .header { margin-bottom: 28px; }
+  .header { margin-bottom: 20px; }
   .card {
-    min-width: 88vw;
-    padding: 20px;
+    min-width: 82vw;
+    padding: 16px;
+    gap: 12px;
   }
-  .dateNum { font-size: 32px; }
-  .eventTitle { font-size: 17px; margin-bottom: 6px; }
-  .eventDesc { font-size: 12px; line-height: 1.6; }
+  .dateNum { font-size: 28px; }
+  .eventTitle { font-size: 16px; margin-bottom: 4px; }
+  .eventDesc { font-size: 11px; line-height: 1.5; }
   .tag { font-size: 8px; padding: 3px 8px; }
-  .footer { margin-top: 28px; }
+  .footer { margin-top: 20px; }
 }
