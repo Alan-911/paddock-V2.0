@@ -42,9 +42,17 @@ const KNOWLEDGE: KnowledgeEntry[] = [
       quickActions: QUICK_ACTIONS_DEFAULT,
     },
   },
+  // Full menu (MUST come before Help so "full menu" doesn't match "menu" in help)
+  {
+    patterns: ['full menu', 'see menu', 'menu page', 'all menu', 'view menu', 'show menu', 'open menu'],
+    response: {
+      text: "Let me take you to our full menu page! 📖",
+      action: 'open-menu',
+    },
+  },
   // Help / What can you do
   {
-    patterns: ['help', 'what can you do', 'menu', 'options', 'start', 'main menu'],
+    patterns: ['help', 'what can you do', 'options', 'start', 'main menu'],
     response: {
       text: "Here's what I can help you with:",
       quickActions: QUICK_ACTIONS_DEFAULT,
@@ -99,14 +107,6 @@ const KNOWLEDGE: KnowledgeEntry[] = [
     response: {
       text: "🍽️ Gourmet Bites:\n\n1. Paddock Day — Our house signature dish\n2. King Burger — Ultimate double-patty\n3. Igisafuriya — Traditional feast (for groups!)\n4. Nyamachoma — East African roasted meat\n5. Chicken Wings — Late night favorite\n6. Goat Brochette — Rwandan grill classic\n7. Four Season Pizza\n8. Chicken Cordon Bleu\n\nPerfect for sharing with friends over drinks!",
       quickActions: QUICK_ACTIONS_MENU,
-    },
-  },
-  // Full menu
-  {
-    patterns: ['full menu', 'see menu', 'menu page', 'all menu', 'view menu'],
-    response: {
-      text: "Let me take you to our full menu page! 📖",
-      action: 'open-menu',
     },
   },
   // VIP
