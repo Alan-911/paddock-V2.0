@@ -2,8 +2,9 @@ import AboutClient from './AboutClient';
 import styles from './about.module.css';
 
 export const metadata = {
-  title: "About | Paddock Lounge Kigali",
-  description: "Experience the ultimate nightlife at Paddock Lounge Kigali. Our story, our vibe, and why we are Kigali's premier nightlife destination.",
+  title: "About Us",
+  description:
+    "Learn the story behind Paddock Lounge — Kigali's premier nightlife destination. Our vision, our vibe, and why we set the standard for nightlife in Rwanda.",
 };
 
 export default function AboutPage() {

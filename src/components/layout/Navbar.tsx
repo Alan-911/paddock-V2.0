@@ -3,10 +3,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import LocationModal from './LocationModal';
+import BookingModal from '../booking/BookingModal';
 import styles from './Navbar.module.css';
-
-const WHATSAPP_URL =
-  "https://wa.me/1540319181819?text=Hi%2C%20I'd%20like%20to%20book%20a%20table%20at%20Paddock%20Lounge";
 
 const navLinks = [
   { label: 'Home', href: '/' },
@@ -20,6 +18,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [showMapModal, setShowMapModal] = useState(false);
+  const [showBooking, setShowBooking] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -55,16 +54,16 @@ export default function Navbar() {
             </li>
           ))}
           <li className={styles.mobileBook}>
-            <Link href="/vip" className={styles.bookBtn} onClick={() => setMenuOpen(false)}>
+            <button className={styles.bookBtn} onClick={() => { setMenuOpen(false); setShowBooking(true); }}>
               Book Now
-            </Link>
+            </button>
           </li>
         </ul>
 
         <div className={`${styles.bookActionGroup} ${styles.desktopBook}`}>
-          <Link href="/vip" className={styles.bookBtn}>
+          <button className={styles.bookBtn} onClick={() => setShowBooking(true)}>
             Book Now
-          </Link>
+          </button>
           <span className={styles.separator}>|</span>
           <button className={styles.mapPinBtn} onClick={() => setShowMapModal(true)} aria-label="View location">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -88,6 +87,7 @@ export default function Navbar() {
       </div>
       
       <LocationModal isOpen={showMapModal} onClose={() => setShowMapModal(false)} />
+      <BookingModal isOpen={showBooking} onClose={() => setShowBooking(false)} />
     </nav>
   );
 }

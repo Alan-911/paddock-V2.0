@@ -1,0 +1,16 @@
+{
+  "name": "Paddock Lounge Kigali",
+  "short_name": "Paddock",
+  "description": "Kigali's premier nightlife destination. Premium VIP reservations, world-class cocktails, and the best DJ lineups in Rwanda.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "icons": [
+    {
+      "src": "/paddock-hero-poster.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

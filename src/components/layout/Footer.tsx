@@ -3,9 +3,9 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from './Footer.module.css';
+import { WHATSAPP_BOOKING_URL } from '@/lib/constants';
 
-const WHATSAPP_URL =
-  "https://wa.me/250700000000?text=Hi%2C%20I'd%20like%20to%20book%20a%20table%20at%20Paddock%20Lounge";
+const WHATSAPP_URL = WHATSAPP_BOOKING_URL;
 
 export default function Footer() {
   const pathname = usePathname();

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://paddock-lounge.vercel.app/sitemap.xml

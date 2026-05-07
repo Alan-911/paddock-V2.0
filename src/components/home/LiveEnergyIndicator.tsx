@@ -1,4 +1,5 @@
 import styles from './LiveEnergyIndicator.module.css';
+import { WHATSAPP_BOOKING_URL } from '@/lib/constants';
 
 type EnergyLevel = 'high' | 'moderate' | 'chill';
 
@@ -28,7 +29,7 @@ export default function LiveEnergyIndicator() {
           </div>
           <p className={styles.subtext}>{subtext}</p>
           <a
-            href="https://wa.me/250700000000?text=Hi%2C%20I'd%20like%20to%20book%20a%20table%20at%20Paddock%20Lounge"
+            href={WHATSAPP_BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.cta}

@@ -5,8 +5,9 @@ import { djLineup } from "@/lib/data/djLineup";
 import ResidentDJsSection from "@/components/home/ResidentDJsSection";
 
 export const metadata = {
-  title: "Events | Paddock Lounge Kigali",
-  description: "Join us for Epic Fridays, Ladies Affair, and Games Night. See what's happening this week at Paddock Lounge.",
+  title: "Events & DJ Lineup",
+  description:
+    "Discover upcoming events at Paddock Lounge Kigali — Epic Fridays, Ladies Affair, Games Night, and live DJ sets. See this week's lineup and book your VIP table.",
 };
 
 // Map realistic Unsplash party/club images to the events

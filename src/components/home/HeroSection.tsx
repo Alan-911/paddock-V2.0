@@ -1,13 +1,14 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import styles from './HeroSection.module.css';
 import SocialSidebar from './SocialSidebar';
-
-const WHATSAPP_URL =
-  "https://wa.me/250788471841?text=Hi%2C%20I'd%20like%20to%20book%20a%20table%20at%20Paddock%20Lounge";
+import BookingModal from '../booking/BookingModal';
 
 export default function HeroSection() {
+  const [showBooking, setShowBooking] = useState(false);
+
   return (
     <section className={styles.hero}>
       {/* Cinematic Video Background — Paddock footage */}
@@ -67,12 +68,12 @@ export default function HeroSection() {
           </p>
 
           <div className={styles.ctas}>
-            <Link
-              href="/vip"
+            <button
+              onClick={() => setShowBooking(true)}
               className={styles.ctaPrimary}
             >
               Book a Table
-            </Link>
+            </button>
             <Link href="/events" className={styles.ctaSecondary}>
               View DJ Lineup
               <span className={styles.arrow}>→</span>
@@ -92,6 +93,9 @@ export default function HeroSection() {
         <div className={styles.scrollLine} />
         <span className={styles.scrollLabel}>Scroll</span>
       </div>
+
+      {/* Booking Modal */}
+      <BookingModal isOpen={showBooking} onClose={() => setShowBooking(false)} />
     </section>
   );
 }
