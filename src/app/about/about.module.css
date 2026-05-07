@@ -160,12 +160,18 @@
 }
 
 @media (max-width: 768px) {
+  .contentOverlay {
+    padding-top: 60px;
+  }
+
   .shadowBox {
     width: 100%;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 60%, transparent 100%);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.75) 55%, transparent 100%);
     border-right: none;
-    padding: 0 24px 60px;
+    padding: 0 24px 48px;
     justify-content: flex-end;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   .emptySpace {
@@ -174,6 +180,90 @@
 
   .scrollWindow {
     flex: 1;
-    min-height: 350px;
+    min-height: 320px;
+  }
+
+  .storyText {
+    font-size: 16px;
+    text-align: left;
+    line-height: 1.65;
+  }
+
+  .location {
+    font-size: 18px;
+    letter-spacing: 0.15em;
+  }
+
+  .rwandaFlag {
+    width: 28px;
+    height: 19px;
+  }
+
+  .visualImage {
+    object-position: 65% center;
+  }
+}
+
+@media (max-width: 480px) {
+  .contentOverlay {
+    padding-top: 56px;
+  }
+
+  .shadowBox {
+    padding: 0 20px 40px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.97) 0%, rgba(0, 0, 0, 0.8) 50%, rgba(0, 0, 0, 0.2) 75%, transparent 100%);
+  }
+
+  .scrollWindow {
+    min-height: 280px;
+  }
+
+  .storyBlock {
+    margin-bottom: 20px;
+    padding-left: 14px;
+  }
+
+  .storyText {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 6px;
+  }
+
+  .finalLock {
+    font-size: 13px;
+    margin-top: 14px;
+  }
+
+  .signatureBlock {
+    margin-top: 10px;
+  }
+
+  .location {
+    font-size: 16px;
+    letter-spacing: 0.12em;
+    gap: 8px;
+  }
+
+  .rwandaFlag {
+    width: 24px;
+    height: 16px;
+  }
+
+  .visualImage {
+    object-position: 60% center;
+  }
+}
+
+@media (max-width: 360px) {
+  .shadowBox {
+    padding: 0 16px 36px;
+  }
+
+  .storyText {
+    font-size: 14px;
+  }
+
+  .location {
+    font-size: 15px;
   }
 }
