@@ -14,6 +14,7 @@ export type BotResponse = {
 
 const QUICK_ACTIONS_DEFAULT: QuickAction[] = [
   { label: '📋 Book a Table', value: 'book a table' },
+  { label: '📖 Menu', value: 'full menu' },
   { label: '🍸 Cocktails', value: 'cocktails' },
   { label: '🎶 Events', value: 'events tonight' },
   { label: '💎 VIP Tables', value: 'vip tables' },

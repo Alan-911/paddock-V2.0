@@ -5,8 +5,8 @@
 /* ─── Draggable P Avatar ─── */
 .avatar {
   position: fixed;
-  bottom: 32px;
-  right: 32px;
+  bottom: 44px;
+  right: 44px;
   z-index: 9999;
   width: 60px;
   height: 60px;
@@ -147,8 +147,8 @@
 /* ─── Greeting Tooltip ─── */
 .tooltip {
   position: fixed;
-  bottom: 52px;
-  right: 100px;
+  bottom: 64px;
+  right: 112px;
   background: rgba(20, 20, 20, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -173,8 +173,8 @@
 /* ─── Chat Panel ─── */
 .panel {
   position: fixed;
-  bottom: 104px;
-  right: 24px;
+  bottom: 116px;
+  right: 36px;
   width: 380px;
   max-height: 560px;
   z-index: 9998;
@@ -503,8 +503,8 @@
 
 @media (max-width: 768px) {
   .avatar {
-    bottom: 80px; /* above mobile strip */
-    right: 20px;
+    bottom: 88px; /* above mobile strip */
+    right: 24px;
     width: 52px;
     height: 52px;
   }
@@ -514,8 +514,8 @@
   }
 
   .tooltip {
-    bottom: 102px;
-    right: 80px;
+    bottom: 110px;
+    right: 84px;
     font-size: 12px;
     padding: 8px 14px;
   }
@@ -555,8 +555,8 @@
   .avatar {
     width: 48px;
     height: 48px;
-    bottom: 76px;
-    right: 16px;
+    bottom: 84px;
+    right: 20px;
   }
 
   .avatarLetter {
