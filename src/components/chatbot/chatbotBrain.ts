@@ -1,5 +1,5 @@
 // ─── Paddock Lounge Chatbot Brain ─────────────────────────────────
-// Keyword-matched intelligent responses for the Paddock virtual concierge.
+// Hybrid AI: Gemma model via Google AI API, with keyword fallback.
 
 export type QuickAction = {
   label: string;
@@ -263,7 +263,81 @@ export function getResponse(input: string): BotResponse {
 
 export function getWelcomeMessage(): BotResponse {
   return {
-    text: "Hey! I'm your Paddock concierge 🎉\n\nI can help you book a table, explore our menu, check events, or answer any questions about the lounge.\n\nWhat would you like to know?",
+    text: "Hey! I'm your Paddock AI concierge powered by Gemma 🎉\n\nI can help you book a table, explore our menu, check events, or answer any questions about the lounge.\n\nWhat would you like to know?",
     quickActions: QUICK_ACTIONS_DEFAULT,
   };
+}
+
+// ─── Gemma AI Response (calls API route) ─────────────────────────
+// Falls back to keyword matching if the API is unavailable.
+
+type ChatMessage = { from: 'user' | 'bot'; text: string };
+
+export async function getGemmaResponse(
+  messages: ChatMessage[]
+): Promise<BotResponse> {
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages }),
+    });
+
+    if (!res.ok) throw new Error(`API ${res.status}`);
+
+    const data = await res.json();
+
+    // Determine quick actions based on content
+    const quickActions = getSmartQuickActions(data.text, data.action);
+
+    return {
+      text: data.text,
+      action: data.action || undefined,
+      quickActions,
+    };
+  } catch {
+    // Fallback to keyword matching
+    const lastMsg = messages[messages.length - 1];
+    if (lastMsg?.from === 'user') {
+      return getResponse(lastMsg.text);
+    }
+    return {
+      text: "I'm having a moment! You can reach us on WhatsApp at +250 788 471 841.",
+      quickActions: QUICK_ACTIONS_DEFAULT,
+    };
+  }
+}
+
+// Smart quick actions based on AI response context
+function getSmartQuickActions(text: string, action?: string | null): QuickAction[] {
+  const lower = text.toLowerCase();
+
+  if (action === 'open-booking') {
+    return []; // Booking form is opening, no chips needed
+  }
+
+  if (lower.includes('cocktail') || lower.includes('drink') || lower.includes('menu')) {
+    return QUICK_ACTIONS_MENU;
+  }
+
+  if (lower.includes('vip') || lower.includes('rwf') || lower.includes('bottle')) {
+    return [
+      { label: '📋 Book VIP', value: 'book a table' },
+      { label: '💎 VIP Page', value: 'vip page' },
+    ];
+  }
+
+  if (lower.includes('event') || lower.includes('dj') || lower.includes('night')) {
+    return [
+      { label: '🎶 Events Page', value: 'events page' },
+      { label: '📋 Book a Table', value: 'book a table' },
+    ];
+  }
+
+  // Default: show main options
+  return [
+    { label: '📋 Book a Table', value: 'book a table' },
+    { label: '🍸 Cocktails', value: 'cocktails' },
+    { label: '💎 VIP', value: 'vip tables' },
+  ];
 }

@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './PaddockChatbot.module.css';
-import { getResponse, getWelcomeMessage, type BotResponse, type QuickAction } from './chatbotBrain';
+import { getResponse, getGemmaResponse, getWelcomeMessage, type BotResponse, type QuickAction } from './chatbotBrain';
 import BookingModal from '../booking/BookingModal';
 
 type Message = {
@@ -133,24 +133,36 @@ export default function PaddockChatbot() {
     }
   }, [router]);
 
-  // Send message
-  const sendMessage = useCallback((text: string) => {
+  // Send message — uses Gemma AI with keyword fallback
+  const sendMessage = useCallback(async (text: string) => {
     if (!text.trim()) return;
 
-    // Add user message
-    setMessages(prev => [...prev, {
-      id: ++msgIdRef.current,
-      from: 'user',
-      text: text.trim(),
-    }]);
-    setInput('');
+    const userMsg = { id: ++msgIdRef.current, from: 'user' as const, text: text.trim() };
 
-    // Show typing indicator
+    setMessages(prev => [...prev, userMsg]);
+    setInput('');
     setIsTyping(true);
 
-    // Simulate thinking delay
-    const delay = 600 + Math.random() * 800;
-    setTimeout(() => {
+    // Build conversation history for Gemma
+    const history = [...messages, userMsg].map(m => ({ from: m.from, text: m.text }));
+
+    try {
+      // Try Gemma AI first
+      const response = await getGemmaResponse(history);
+
+      setMessages(prev => [...prev, {
+        id: ++msgIdRef.current,
+        from: 'bot',
+        text: response.text,
+        quickActions: response.quickActions,
+      }]);
+      setIsTyping(false);
+
+      if (response.action) {
+        handleAction(response.action);
+      }
+    } catch {
+      // Fallback to keyword matching
       const response = getResponse(text);
       setMessages(prev => [...prev, {
         id: ++msgIdRef.current,
@@ -160,12 +172,11 @@ export default function PaddockChatbot() {
       }]);
       setIsTyping(false);
 
-      // Execute action if any
       if (response.action) {
         handleAction(response.action);
       }
-    }, delay);
-  }, [handleAction]);
+    }
+  }, [handleAction, messages]);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -324,7 +335,7 @@ export default function PaddockChatbot() {
 
           {/* Branding */}
           <div className={styles.panelFooter}>
-            Paddock Lounge Concierge
+            Powered by Gemma AI
           </div>
         </div>
       )}
