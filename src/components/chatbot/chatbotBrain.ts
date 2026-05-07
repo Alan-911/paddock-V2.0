@@ -58,6 +58,45 @@ const KNOWLEDGE: KnowledgeEntry[] = [
       quickActions: QUICK_ACTIONS_DEFAULT,
     },
   },
+  // VIP page (MUST come before VIP — "vip page" contains "vip")
+  {
+    patterns: ['vip page', 'vip details', 'see vip'],
+    response: {
+      text: "Let me take you to our VIP experience page! 💎",
+      action: 'open-vip',
+    },
+  },
+  // VIP (MUST come before Booking — "vip tables" contains "table")
+  {
+    patterns: ['vip', 'vvip', 'bottle service', 'bottle', 'premium table', 'vip table', 'vip experience', 'private'],
+    response: {
+      text: "💎 VIP Table Options:\n\n🏆 VVIP Suite — RWF 500,000\n   12 guests, 3 bottles, security & hostess\n\n🎧 DJ Booth VIP — RWF 350,000\n   8 guests, 2 bottles, DJ booth access\n\n🏔️ Mezzanine — RWF 250,000\n   6 guests, 1 bottle, elevated view\n\n🏇 Grandstand — RWF 200,000\n   5 guests, 1 bottle\n\n🏎️ Trackside — RWF 150,000\n   4 guests, champagne/spirit\n\n💃 Main Floor — RWF 100,000\n   4 guests, by the dancefloor",
+      quickActions: [
+        { label: '📋 Book VIP', value: 'book a table' },
+        { label: '💎 VIP Page', value: 'vip page' },
+        { label: '📞 Call Us', value: 'phone number' },
+      ],
+    },
+  },
+  // Events page (MUST come before Events — "events page" contains "event")
+  {
+    patterns: ['events page', 'all events', 'see events'],
+    response: {
+      text: "Let me show you our full events lineup! 🎶",
+      action: 'open-events',
+    },
+  },
+  // Events
+  {
+    patterns: ['event', 'events', 'tonight', 'this week', 'whats on', 'what\'s on', 'dj', 'lineup', 'music', 'afrobeats', 'amapiano'],
+    response: {
+      text: "🎶 Upcoming Events:\n\n🔥 Fri May 9 — Afrobeats Friday\n   DJ Krest all night long\n\n🎵 Sat May 10 — Saturday Takeover\n   DJ Monarch exclusive set\n\n🎶 Sat May 17 — Amapiano Night\n   Special themed night!\n\n⚡ Sat May 24 — 1ST ANNIVERSARY\n   Paddock's biggest night ever!\n\nBook early — VIP tables sell out fast!",
+      quickActions: [
+        { label: '🎶 Events Page', value: 'events page' },
+        { label: '📋 Book a Table', value: 'book a table' },
+      ],
+    },
+  },
   // Booking
   {
     patterns: ['book', 'reserve', 'reservation', 'table', 'book a table', 'booking'],
@@ -79,7 +118,7 @@ const KNOWLEDGE: KnowledgeEntry[] = [
   },
   // Location
   {
-    patterns: ['where', 'location', 'address', 'directions', 'find you', 'map', 'how to get', 'located'],
+    patterns: ['where', 'location', 'address', 'directions', 'find you', 'how to get', 'located'],
     response: {
       text: "📍 Paddock Lounge\nKG 7 Ave, Kigali, Rwanda\n(Kicukiro area)\n\nLet me show you on the map!",
       action: 'open-map',
@@ -107,45 +146,6 @@ const KNOWLEDGE: KnowledgeEntry[] = [
     response: {
       text: "🍽️ Gourmet Bites:\n\n1. Paddock Day — Our house signature dish\n2. King Burger — Ultimate double-patty\n3. Igisafuriya — Traditional feast (for groups!)\n4. Nyamachoma — East African roasted meat\n5. Chicken Wings — Late night favorite\n6. Goat Brochette — Rwandan grill classic\n7. Four Season Pizza\n8. Chicken Cordon Bleu\n\nPerfect for sharing with friends over drinks!",
       quickActions: QUICK_ACTIONS_MENU,
-    },
-  },
-  // VIP
-  {
-    patterns: ['vip', 'vvip', 'bottle service', 'bottle', 'premium table', 'vip table', 'vip experience', 'private'],
-    response: {
-      text: "💎 VIP Table Options:\n\n🏆 VVIP Suite — RWF 500,000\n   12 guests, 3 bottles, security & hostess\n\n🎧 DJ Booth VIP — RWF 350,000\n   8 guests, 2 bottles, DJ booth access\n\n🏔️ Mezzanine — RWF 250,000\n   6 guests, 1 bottle, elevated view\n\n🏇 Grandstand — RWF 200,000\n   5 guests, 1 bottle\n\n🏎️ Trackside — RWF 150,000\n   4 guests, champagne/spirit\n\n💃 Main Floor — RWF 100,000\n   4 guests, by the dancefloor",
-      quickActions: [
-        { label: '📋 Book VIP', value: 'book a table' },
-        { label: '💎 VIP Page', value: 'vip page' },
-        { label: '📞 Call Us', value: 'phone number' },
-      ],
-    },
-  },
-  // VIP page
-  {
-    patterns: ['vip page', 'vip details', 'see vip'],
-    response: {
-      text: "Let me take you to our VIP experience page! 💎",
-      action: 'open-vip',
-    },
-  },
-  // Events
-  {
-    patterns: ['event', 'events', 'tonight', 'this week', 'whats on', 'what\'s on', 'dj', 'lineup', 'music', 'party', 'afrobeats', 'amapiano'],
-    response: {
-      text: "🎶 Upcoming Events:\n\n🔥 Fri May 9 — Afrobeats Friday\n   DJ Krest all night long\n\n🎵 Sat May 10 — Saturday Takeover\n   DJ Monarch exclusive set\n\n🎶 Sat May 17 — Amapiano Night\n   Special themed night!\n\n⚡ Sat May 24 — 1ST ANNIVERSARY\n   Paddock's biggest night ever!\n\nBook early — VIP tables sell out fast!",
-      quickActions: [
-        { label: '🎶 Events Page', value: 'events page' },
-        { label: '📋 Book a Table', value: 'book a table' },
-      ],
-    },
-  },
-  // Events page
-  {
-    patterns: ['events page', 'all events', 'see events'],
-    response: {
-      text: "Let me show you our full events lineup! 🎶",
-      action: 'open-events',
     },
   },
   // Price / Cost
