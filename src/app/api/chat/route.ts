@@ -81,7 +81,7 @@ export async function POST(request: Request) {
     const { messages } = await request.json();
 
     const apiKey = process.env.GOOGLE_AI_API_KEY;
-    if (!apiKey) {
+    if (!apiKey || apiKey === 'your_api_key_here') {
       return Response.json(
         { error: 'AI service not configured' },
         { status: 500 }
@@ -132,10 +132,10 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('Chat API error:', error);
 
-    // Fallback: if Gemma fails, return a helpful message
-    return Response.json({
-      text: "I'm having a moment! 😅 You can reach us directly on WhatsApp at +250 788 471 841, or try asking me again.",
-      action: null,
-    });
+    // Return error status so client falls back to keyword matching
+    return Response.json(
+      { error: 'AI service unavailable' },
+      { status: 500 }
+    );
   }
 }

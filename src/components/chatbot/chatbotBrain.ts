@@ -247,13 +247,20 @@ const FALLBACK: BotResponse = {
   quickActions: QUICK_ACTIONS_DEFAULT,
 };
 
+// Escape regex special characters in a string
+function escapeRegex(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 export function getResponse(input: string): BotResponse {
   const lower = input.toLowerCase().trim();
 
-  // Check each knowledge entry
+  // Check each knowledge entry using word-boundary matching
+  // This prevents "yo" from matching "you", "hi" from matching "this", etc.
   for (const entry of KNOWLEDGE) {
     for (const pattern of entry.patterns) {
-      if (lower.includes(pattern)) {
+      const regex = new RegExp(`\\b${escapeRegex(pattern)}\\b`, 'i');
+      if (regex.test(lower)) {
         return entry.response;
       }
     }
