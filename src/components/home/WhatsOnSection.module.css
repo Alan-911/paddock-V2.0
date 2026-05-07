@@ -158,14 +158,15 @@
 }
 
 @media (max-width: 600px) {
-  .section { padding: 80px 0; }
+  .section { padding: 60px 0 40px; }
   .container { padding: 0 20px; }
-  .grid { 
+  .header { margin-bottom: 36px; }
+  .grid {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    gap: 16px;
-    padding-bottom: 20px;
+    gap: 14px;
+    padding-bottom: 16px;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none; /* Firefox */
   }
@@ -173,8 +174,27 @@
     display: none; /* Chrome/Safari */
   }
   .card {
-    min-width: 85vw;
+    min-width: 82vw;
     scroll-snap-align: center;
+    padding: 24px;
   }
-  .header { margin-bottom: 40px; }
+  .dateNum { font-size: 36px; }
+  .eventTitle { font-size: 19px; }
+  .eventDesc { font-size: 12px; }
+  .footer { margin-top: 36px; }
+}
+
+@media (max-width: 400px) {
+  .section { padding: 48px 0 32px; }
+  .container { padding: 0 16px; }
+  .header { margin-bottom: 28px; }
+  .card {
+    min-width: 88vw;
+    padding: 20px;
+  }
+  .dateNum { font-size: 32px; }
+  .eventTitle { font-size: 17px; margin-bottom: 6px; }
+  .eventDesc { font-size: 12px; line-height: 1.6; }
+  .tag { font-size: 8px; padding: 3px 8px; }
+  .footer { margin-top: 28px; }
 }

@@ -26,8 +26,7 @@ export default function FoodSection() {
           <span className={styles.eyebrow}>Gourmet Bites</span>
           <h2 className={styles.title}>The Food<br />Experience</h2>
           <p className={styles.subtitle}>
-            A curated selection of premium flavors. Perfect for sharing,<br />
-            designed to elevate your night out.
+            A curated selection of premium flavors. Perfect for sharing, designed to elevate your night out.
           </p>
         </div>
 
@@ -41,6 +40,7 @@ export default function FoodSection() {
                   key={item.id}
                   className={`${styles.listItem} ${index === activeIndex ? styles.activeItem : ''}`}
                   onMouseEnter={() => setActiveIndex(index)}
+                  onClick={() => setActiveIndex(index)}
                 >
                   <div className={styles.itemHeader}>
                     <span className={styles.itemNumber}>0{index + 1}</span>
@@ -57,10 +57,11 @@ export default function FoodSection() {
             {/* Right Column (Items 5-8) */}
             <div className={styles.cocktailColumn}>
               {foodItems.slice(4, 8).map((item, index) => (
-                <div 
+                <div
                   key={item.id}
                   className={`${styles.listItem} ${(index + 4) === activeIndex ? styles.activeItem : ''}`}
                   onMouseEnter={() => setActiveIndex(index + 4)}
+                  onClick={() => setActiveIndex(index + 4)}
                 >
                   <div className={styles.itemHeader}>
                     <span className={styles.itemNumber}>0{index + 5}</span>

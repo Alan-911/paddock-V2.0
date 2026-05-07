@@ -85,8 +85,21 @@
     flex-wrap: wrap;
     gap: 10px;
     padding: 0 20px;
+    justify-content: space-between;
   }
   .subtext { display: none; }
+  .label { font-size: 11px; letter-spacing: 0.1em; }
+  .tickerItem { padding: 0 32px; font-size: 10px; }
+}
+
+@media (max-width: 400px) {
+  .inner { padding: 0 16px; gap: 8px; }
+  .strip { padding: 12px 0; }
+  .label { font-size: 10px; letter-spacing: 0.08em; }
+  .liveTag { font-size: 8px; padding: 2px 5px; }
+  .cta { font-size: 10px; }
+  .tickerItem { padding: 0 24px; font-size: 9px; }
+  .ticker { padding: 8px 0; }
 }
 
 /* Announcement ticker */

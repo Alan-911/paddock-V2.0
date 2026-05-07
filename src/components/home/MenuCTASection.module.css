@@ -75,5 +75,12 @@
 }
 
 @media (max-width: 600px) {
-  .menuCTA { padding: 80px 20px; }
+  .menuCTA { padding: 72px 20px; gap: 14px; }
+  .menuTag { font-size: 10px; letter-spacing: 0.2em; }
+  .menuBtn { padding: 16px 36px; font-size: 11px; }
+}
+
+@media (max-width: 400px) {
+  .menuCTA { padding: 56px 16px; }
+  .menuBtn { padding: 14px 32px; }
 }

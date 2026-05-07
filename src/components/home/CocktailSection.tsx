@@ -26,8 +26,7 @@ export default function CocktailSection() {
           <span className={styles.eyebrow}>Signature Cocktails</span>
           <h2 className={styles.title}>The Drinks<br />Experience</h2>
           <p className={styles.subtitle}>
-            Every glass tells a story. Crafted by our expert mixologists,<br />
-            designed to be as unforgettable as the night itself.
+            Every glass tells a story. Crafted by our expert mixologists, designed to be as unforgettable as the night itself.
           </p>
         </div>
 
@@ -41,6 +40,7 @@ export default function CocktailSection() {
                   key={cocktail.id}
                   className={`${styles.listItem} ${index === activeIndex ? styles.activeItem : ''}`}
                   onMouseEnter={() => setActiveIndex(index)}
+                  onClick={() => setActiveIndex(index)}
                 >
                   <div className={styles.itemHeader}>
                     <span className={styles.itemNumber}>0{index + 1}</span>
@@ -57,10 +57,11 @@ export default function CocktailSection() {
             {/* Right Column (Cocktails 5-8) */}
             <div className={styles.cocktailColumn}>
               {cocktails.slice(4, 8).map((cocktail, index) => (
-                <div 
+                <div
                   key={cocktail.id}
                   className={`${styles.listItem} ${(index + 4) === activeIndex ? styles.activeItem : ''}`}
                   onMouseEnter={() => setActiveIndex(index + 4)}
+                  onClick={() => setActiveIndex(index + 4)}
                 >
                   <div className={styles.itemHeader}>
                     <span className={styles.itemNumber}>0{index + 5}</span>

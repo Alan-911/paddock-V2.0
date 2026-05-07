@@ -220,10 +220,40 @@
   }
 }
 
+@media (max-width: 768px) {
+  /* On touch devices, hover doesn't work — show all items clearly */
+  .listItem {
+    opacity: 0.85;
+  }
+  .listItem:hover,
+  .activeItem {
+    opacity: 1;
+  }
+  .activeItem .itemHeader {
+    transform: translateX(10px);
+  }
+}
+
 @media (max-width: 600px) {
-  .section { padding: 80px 0; }
+  .section { padding: 60px 0 40px; }
   .container { padding: 0 20px; }
-  .header { margin-bottom: 48px; }
-  .activeItem .itemHeader { transform: translateX(10px); }
-  .itemDetails { padding-left: 28px; }
+  .header { margin-bottom: 40px; }
+  .title { margin-bottom: 14px; }
+  .subtitle { font-size: 13px; }
+  .activeItem .itemHeader { transform: translateX(8px); }
+  .itemDetails { padding-left: 24px; }
+  .itemName { font-size: clamp(20px, 5vw, 26px); }
+  .pourText { font-size: 10px; gap: 24px; }
+}
+
+@media (max-width: 400px) {
+  .section { padding: 48px 0 32px; }
+  .container { padding: 0 16px; }
+  .header { margin-bottom: 32px; }
+  .activeItem .itemHeader { transform: translateX(6px); }
+  .itemDetails { padding-left: 20px; }
+  .itemName { font-size: 19px; }
+  .itemNumber { font-size: 15px; }
+  .itemHeader { gap: 14px; }
+  .listItem { padding: 12px 0; }
 }
