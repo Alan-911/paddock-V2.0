@@ -34,9 +34,9 @@ export default function HeroSection() {
           <div className={styles.eyebrowWrapper}>
             <div className={styles.eyebrowContainer}>
               {"Kigali's Premier Nightlife Destination".split(' ').map((word, index) => (
-                <span 
-                  key={index} 
-                  className={styles.eyebrowWord} 
+                <span
+                  key={index}
+                  className={styles.eyebrowWord}
                   style={{ animationDelay: `${index * 0.2}s` }}
                 >
                   {word}&nbsp;
@@ -45,9 +45,9 @@ export default function HeroSection() {
             </div>
             <div className={styles.eyebrowContainer}>
               {"HOME OF VIBES".split(' ').map((word, index) => (
-                <span 
-                  key={`home-${index}`} 
-                  className={styles.eyebrowWord} 
+                <span
+                  key={`home-${index}`}
+                  className={styles.eyebrowWordSub}
                   style={{ animationDelay: `${(index + 4) * 0.2}s` }}
                 >
                   {word}&nbsp;

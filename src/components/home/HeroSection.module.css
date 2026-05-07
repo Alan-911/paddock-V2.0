@@ -128,7 +128,7 @@
 .eyebrowWord {
   display: inline-block;
   font-family: var(--font-script);
-  font-size: clamp(32px, 4.5vw, 44px);
+  font-size: clamp(22px, 3vw, 30px);
   font-weight: 700;
   color: var(--color-accent-gold);
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 10px rgba(212, 175, 55, 0.3);
@@ -138,7 +138,22 @@
   animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
   animation-fill-mode: forwards;
   letter-spacing: 0.05em;
-  /* Removed uppercase so the script font flows naturally */
+}
+
+.eyebrowWordSub {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: clamp(14px, 2vw, 18px);
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-accent-gold);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  animation-name: revealWord;
+  animation-duration: 0.8s;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation-fill-mode: forwards;
 }
 
 @keyframes revealWord {
