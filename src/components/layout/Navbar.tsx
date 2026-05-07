@@ -26,6 +26,13 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Listen for chatbot map-open event
+  useEffect(() => {
+    const openMap = () => setShowMapModal(true);
+    window.addEventListener('paddock:open-map', openMap);
+    return () => window.removeEventListener('paddock:open-map', openMap);
+  }, []);
+
   useEffect(() => {
     // Only disable body scroll for the mobile menu if the map modal is NOT open.
     // The map modal handles its own body scroll locking.
