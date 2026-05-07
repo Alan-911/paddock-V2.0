@@ -1,13 +1,10 @@
-.modalOverlay {
+/* ── Fullscreen Overlay ── */
+.overlay {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: rgba(5, 5, 5, 0.95);
-  backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: fadeIn 0.3s ease;
+  background: rgba(0, 0, 0, 0.4);
+  animation: fadeIn 0.35s ease;
 }
 
 @keyframes fadeIn {
@@ -15,63 +12,155 @@
   to { opacity: 1; }
 }
 
-.modalContent {
-  position: relative;
+/* ── Fullscreen Map Background ── */
+.mapLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.mapIframe {
   width: 100%;
-  max-width: 1200px;
-  height: 85vh;
-  background: #000;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
+  height: 100%;
+  border: 0;
+  filter: invert(0.9) hue-rotate(180deg) brightness(0.8) contrast(1.2);
+}
+
+/* ── Pulsating Red Dot — Center of Map ── */
+.pinWrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  pointer-events: none;
   display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.5);
-  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  margin: 0 24px;
+  align-items: center;
+  justify-content: center;
 }
 
-@keyframes slideUp {
-  from { transform: translateY(40px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+.pinCore {
+  width: 18px;
+  height: 18px;
+  background: #e53e3e;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow:
+    0 0 10px rgba(229, 62, 62, 0.9),
+    0 0 30px rgba(229, 62, 62, 0.4);
+  position: relative;
+  z-index: 3;
+  animation: pinPump 1.5s ease-in-out infinite;
 }
 
+@keyframes pinPump {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.35); }
+}
+
+.pulseRing,
+.pulseRing2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(229, 62, 62, 0.5);
+  z-index: 1;
+  animation: ripple 2s ease-out infinite;
+}
+
+.pulseRing2 {
+  background: rgba(229, 62, 62, 0.3);
+  animation-delay: 1s;
+}
+
+@keyframes ripple {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+  70% { opacity: 0.15; }
+  100% {
+    transform: translate(-50%, -50%) scale(5);
+    opacity: 0;
+  }
+}
+
+/* ── Close Button ── */
 .closeBtn {
   position: absolute;
   top: 24px;
   right: 24px;
-  z-index: 10;
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #fff;
+  z-index: 20;
   width: 44px;
   height: 44px;
   border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s;
-  backdrop-filter: blur(4px);
+  transition: all 0.25s ease;
 }
 
 .closeBtn:hover {
   background: var(--color-accent-gold);
   border-color: var(--color-accent-gold);
   color: #000;
+  transform: rotate(90deg);
 }
 
-.header {
-  padding: 32px;
-  text-align: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  position: relative;
-  z-index: 2;
-  background: #050505;
+/* ── Info Panel — Transparent Glass ── */
+.infoPanel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 15;
+  padding: 0 40px 40px;
+  animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.infoPanelInner {
+  max-width: 1280px;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 36px 44px;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+/* ── Info Header ── */
+.infoHeader {
+  flex-shrink: 0;
+  min-width: 180px;
 }
 
 .eyebrow {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.3em;
   text-transform: uppercase;
@@ -82,115 +171,179 @@
 
 .title {
   font-family: var(--font-heading);
-  font-size: 32px;
-  font-weight: 400;
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 700;
   color: #fff;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
   margin: 0;
 }
 
-.mapContainer {
-  flex: 1;
-  width: 100%;
-  position: relative;
-  background: #111;
-  overflow: hidden;
-}
-
-.mapIframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-  pointer-events: none; /* Make map static so custom pin stays perfectly aligned */
-  /* Dark mode filter for standard Google Map iframe */
-  filter: invert(90%) hue-rotate(180deg) brightness(0.85) contrast(1.1);
-}
-
-.centerPinOverlay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 4px;
-  height: 4px;
-  background: red;
-  border-radius: 50%;
-  z-index: 5;
-  pointer-events: none;
-}
-
-.pulseRing,
-.pulseRingDelayed {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: rgba(255, 50, 50, 0.4); /* High visibility Red */
-  border: 1px solid rgba(255, 50, 50, 0.8);
-  animation: radarPulse 2s infinite cubic-bezier(0.1, 0.4, 0.4, 1);
-}
-
-.pulseRingDelayed {
-  animation-delay: 1s;
-}
-
-@keyframes radarPulse {
-  0% {
-    transform: translate(-50%, -50%) scale(0.1);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(2);
-    opacity: 0;
-  }
-}
-
-.directionsBtn {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--color-accent-gold);
-  color: #000;
-  padding: 16px 32px;
-  border-radius: 4px;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  text-decoration: none;
+/* ── Info Grid ── */
+.infoGrid {
   display: flex;
+  gap: 40px;
+  flex: 1;
+}
+
+.infoBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.infoLabel {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-accent-gold);
+  margin: 0;
+  opacity: 0.9;
+}
+
+.infoText {
+  font-size: 14px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+.infoLink {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.infoLink:hover {
+  color: var(--color-accent-gold);
+}
+
+/* ── Directions Button ── */
+.directionsBtn {
+  flex-shrink: 0;
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
-  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
-  transition: all 0.3s ease;
-  z-index: 10;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #000;
+  background: var(--color-accent-gold);
+  padding: 14px 28px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  white-space: nowrap;
 }
 
 .directionsBtn:hover {
   background: #fff;
-  transform: translateX(-50%) translateY(-2px);
-  box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
 }
 
-@media (max-width: 768px) {
-  .modalContent {
-    height: 100vh;
-    margin: 0;
-    border-radius: 0;
-    border: none;
+/* ── Tablet ── */
+@media (max-width: 1024px) {
+  .infoPanelInner {
+    flex-wrap: wrap;
+    gap: 28px;
+    padding: 28px 32px;
   }
-  
+
+  .infoHeader {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .infoGrid {
+    flex: 1;
+    gap: 28px;
+  }
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .infoPanel {
+    padding: 0 16px 16px;
+  }
+
+  .infoPanelInner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 24px 24px;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .infoGrid {
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .infoHeader {
+    width: 100%;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .infoText {
+    font-size: 13px;
+  }
+
+  .directionsBtn {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 24px;
+  }
+
   .closeBtn {
     top: 16px;
     right: 16px;
+    width: 40px;
+    height: 40px;
   }
-  
+
+  /* Shift pin up so it's visible above the info panel */
+  .pinWrapper {
+    top: 38%;
+  }
+}
+
+/* ── Small Phone ── */
+@media (max-width: 480px) {
+  .infoPanel {
+    padding: 0 12px 12px;
+  }
+
+  .infoPanelInner {
+    padding: 20px 20px;
+    gap: 16px;
+  }
+
+  .eyebrow {
+    font-size: 9px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .infoLabel {
+    font-size: 8px;
+  }
+
+  .infoText {
+    font-size: 12px;
+  }
+
   .directionsBtn {
-    bottom: 32px;
-    width: 90%;
-    justify-content: center;
+    font-size: 10px;
+    padding: 12px 20px;
   }
 }

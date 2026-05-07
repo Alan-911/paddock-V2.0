@@ -4,8 +4,6 @@ import MenuCTASection from "@/components/home/MenuCTASection";
 import WhatsOnSection from "@/components/home/WhatsOnSection";
 import CocktailSection from "@/components/home/CocktailSection";
 import FoodSection from "@/components/home/FoodSection";
-import LocationSection from "@/components/home/LocationSection";
-
 export default function Home() {
   return (
     <>
@@ -15,7 +13,6 @@ export default function Home() {
       <WhatsOnSection />
       <CocktailSection />
       <FoodSection />
-      <LocationSection />
     </>
   );
 }
