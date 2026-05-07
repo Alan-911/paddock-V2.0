@@ -5,19 +5,24 @@ import styles from './HeroSection.module.css';
 import SocialSidebar from './SocialSidebar';
 
 const WHATSAPP_URL =
-  "https://wa.me/1540319181819?text=Hi%2C%20I'd%20like%20to%20book%20a%20table%20at%20Paddock%20Lounge";
+  "https://wa.me/250788471841?text=Hi%2C%20I'd%20like%20to%20book%20a%20table%20at%20Paddock%20Lounge";
 
 export default function HeroSection() {
   return (
     <section className={styles.hero}>
-      {/* Cinematic Video Background (YouTube Iframe for guaranteed cross-origin playback) */}
+      {/* Cinematic Video Background — Paddock footage */}
       <div className={styles.bgVideoContainer}>
-        <iframe
-          src="https://www.youtube.com/embed/jWAYmmLqlQQ?autoplay=1&mute=1&controls=0&loop=1&playlist=jWAYmmLqlQQ&showinfo=0&rel=0&modestbranding=1"
-          title="Nightclub Background"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        <video
           className={styles.bgVideo}
-        ></iframe>
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/paddock-hero-poster.jpg"
+        >
+          <source src="/paddock-hero-bg.mp4" type="video/mp4" />
+        </video>
       </div>
       <div className={styles.bgOverlay} aria-hidden="true" />
 
@@ -26,16 +31,29 @@ export default function HeroSection() {
         
         {/* Main content */}
         <div className={styles.content}>
-          <div className={styles.eyebrowContainer}>
-            {"Kigali's Premier Nightlife Destination".split(' ').map((word, index) => (
-              <span 
-                key={index} 
-                className={styles.eyebrowWord} 
-                style={{ animationDelay: `${index * 0.4}s` }}
-              >
-                {word}&nbsp;
-              </span>
-            ))}
+          <div className={styles.eyebrowWrapper}>
+            <div className={styles.eyebrowContainer}>
+              {"Kigali's Premier Nightlife Destination".split(' ').map((word, index) => (
+                <span 
+                  key={index} 
+                  className={styles.eyebrowWord} 
+                  style={{ animationDelay: `${index * 0.2}s` }}
+                >
+                  {word}&nbsp;
+                </span>
+              ))}
+            </div>
+            <div className={styles.eyebrowContainer}>
+              {"HOME OF VIBES".split(' ').map((word, index) => (
+                <span 
+                  key={`home-${index}`} 
+                  className={styles.eyebrowWord} 
+                  style={{ animationDelay: `${(index + 4) * 0.2}s` }}
+                >
+                  {word}&nbsp;
+                </span>
+              ))}
+            </div>
           </div>
 
           <h1 className={styles.title}>
@@ -44,8 +62,8 @@ export default function HeroSection() {
           </h1>
 
           <p className={styles.subtitle}>
-            Want to experience Kigali night?<br />
-            <em>We&apos;ve got you.</em>
+            <span>BORN IN KIGALI</span>
+            <span className={styles.subtitleIndent}>BUILT FOR THE WORLD.</span>
           </p>
 
           <div className={styles.ctas}>
@@ -62,10 +80,11 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Vertical Social Media Sidebar */}
-        <div className={styles.socialColumn}>
-          <SocialSidebar />
-        </div>
+      </div>
+
+      {/* Vertical Social Media Sidebar */}
+      <div className={styles.socialColumn}>
+        <SocialSidebar />
       </div>
 
       {/* Scroll indicator */}

@@ -7,10 +7,11 @@
 .wrapper {
   display: flex;
   align-items: flex-start;
-  width: 320px;
-  height: 390px;
+  width: 280px; /* Reduced from 320px */
+  height: 350px; /* Reduced from 390px */
   flex-shrink: 0;
   align-self: flex-start;
+  gap: 2px; /* Almost attached */
 }
 
 /* ====== Icon tabs (vertical column on left, aligned to top) ====== */
@@ -28,24 +29,27 @@
   align-items: center;
   justify-content: center;
   padding: 8px;
-  background: rgba(8, 8, 10, 0.6);
-  border: none;
-  border-radius: 12px 0 0 12px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px; /* Curved on all edges */
   cursor: pointer;
   color: #fff;
-  transition: background 0.2s, transform 0.2s, opacity 0.2s;
-  opacity: 0.5;
+  transition: background 0.2s, transform 0.2s, opacity 0.2s, border-color 0.2s;
+  opacity: 0.6;
 }
 
 .iconTab:hover {
-  opacity: 0.85;
-  background: rgba(15, 15, 18, 0.8);
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.15);
   transform: scale(1.08);
 }
 
 .iconTabActive {
   opacity: 1;
-  background: rgba(15, 15, 18, 0.9);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 .icon_instagram.iconTabActive {
@@ -91,10 +95,13 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 0 14px 14px 0;
+  background: rgba(20, 20, 25, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 14px; /* Curved on all edges to match */
   overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 /* ====== Panel Header (platform accent stripe) ====== */
@@ -135,8 +142,8 @@
   align-items: center;
   justify-content: space-around;
   padding: 10px 12px;
-  background: rgba(0, 0, 0, 0.5);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   flex-shrink: 0;
 }
 
@@ -167,8 +174,8 @@
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
-  background: rgba(0, 0, 0, 0.45);
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  background: transparent;
 }
 
 .panelBody::-webkit-scrollbar {
@@ -222,7 +229,7 @@
   align-items: center;
   gap: 12px;
   padding: 6px 10px;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .igAction {
@@ -249,13 +256,15 @@
   padding: 8px 10px;
   text-decoration: none;
   align-items: flex-start;
-  transition: background 0.2s;
-  background: rgba(0, 0, 0, 0.5);
+  transition: background 0.2s, border-color 0.2s;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 8px;
 }
 
 .ttItem:hover {
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 .ttThumb {
@@ -327,13 +336,15 @@
   padding: 8px 10px;
   text-decoration: none;
   align-items: flex-start;
-  transition: background 0.2s;
-  background: rgba(0, 0, 0, 0.5);
+  transition: background 0.2s, border-color 0.2s;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 8px;
 }
 
 .ytItem:hover {
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 .ytThumb {
@@ -402,15 +413,15 @@
 /* ====== Responsive ====== */
 @media (max-width: 1100px) {
   .wrapper {
-    width: 260px;
-    height: 350px;
+    width: 240px;
+    height: 320px;
   }
 }
 
 @media (max-width: 900px) {
   .wrapper {
     width: 100%;
-    max-width: 320px;
+    max-width: 280px;
     height: 300px;
     align-self: center;
   }
