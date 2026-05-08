@@ -1,9 +1,10 @@
 import Link from 'next/link';
-import { djLineup } from '@/lib/data/djLineup';
+import { getDynamicLineup } from '@/lib/dynamicLineup';
 import InstagramStories from './InstagramStories';
 import styles from './DJLineupSection.module.css';
 
-export default function DJLineupSection() {
+export default async function DJLineupSection() {
+  const lineup = await getDynamicLineup();
   return (
     <section className={styles.section}>
       <div className={styles.container}>
@@ -16,7 +17,7 @@ export default function DJLineupSection() {
         <InstagramStories />
 
         <div className={styles.grid}>
-          {djLineup.map((slot) => (
+          {lineup.map((slot) => (
             <div
               key={slot.day}
               className={`${styles.card} ${slot.isSpecial ? styles.specialCard : ''}`}
