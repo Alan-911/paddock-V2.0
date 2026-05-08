@@ -100,11 +100,20 @@ export async function POST(request: Request) {
       systemInstruction: SYSTEM_PROMPT,
     });
 
-    // Build conversation history for Gemma
-    const history = messages.slice(0, -1).map((msg: { from: string; text: string }) => ({
+    // Build conversation history for Gemini
+    let history = messages.slice(0, -1).map((msg: { from: string; text: string }) => ({
       role: msg.from === 'user' ? 'user' : 'model',
       parts: [{ text: msg.text }],
     }));
+
+    // Gemini API requires history to start with a 'user' role.
+    // If our history starts with the bot's welcome message, prepend a dummy user message.
+    if (history.length > 0 && history[0].role === 'model') {
+      history = [
+        { role: 'user', parts: [{ text: 'Hello' }] },
+        ...history
+      ];
+    }
 
     const chat = model.startChat({ history });
     const lastMessage = messages[messages.length - 1].text;
