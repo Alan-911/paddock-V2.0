@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { djLineup } from '@/lib/data/djLineup';
+import InstagramStories from './InstagramStories';
 import styles from './DJLineupSection.module.css';
 
 export default function DJLineupSection() {
@@ -10,6 +11,9 @@ export default function DJLineupSection() {
           <span className={styles.eyebrow}>Weekly Schedule</span>
           <h2 className={styles.title}>This Week&apos;s Lineup</h2>
         </div>
+
+        {/* Instagram Stories */}
+        <InstagramStories />
 
         <div className={styles.grid}>
           {djLineup.map((slot) => (

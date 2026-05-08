@@ -14,10 +14,11 @@
   --color-accent-gold-hover: #f3e5ab;
   --color-action: #ffffff; /* Stark white for high conversion buttons */
   
-  /* Typography Variables (linked to Google Fonts in layout) */
+  /* Typography Variables (linked to Google Google Fonts in layout) */
   --font-body: var(--font-inter), sans-serif;
   --font-heading: var(--font-outfit), sans-serif;
   --font-serif: var(--font-playfair), serif; /* for vintage/elegant touches like "The Office" */
+  --font-script: var(--font-dancing), cursive;
   
   /* Effects */
   --glass-blur: blur(12px);

@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import styles from './SocialSidebar.module.css';
+import type { InstagramPost, InstagramStory } from '@/lib/types/instagram';
 
 type Platform = 'instagram' | 'tiktok' | 'youtube';
 
@@ -41,6 +42,13 @@ const YTIcon = () => (
     <path d="M21 29.5V18.5l8 5.5-8 5.5z" fill="#fff" />
   </svg>
 );
+
+/* ========= Utility ========= */
+function formatCount(num: number): string {
+  if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
+  if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
+  return String(num);
+}
 
 /* ========= Profile data ========= */
 const PROFILES = {
@@ -85,40 +93,75 @@ const PROFILES = {
   },
 };
 
-/* ========= Sample post data ========= */
-const POSTS = {
-  instagram: [
-    { g: 'linear-gradient(135deg, #833AB4, #FD1D1D)', tag: '🏎️', likes: '1.2K', comments: 47 },
-    { g: 'linear-gradient(135deg, #FCB045, #FD1D1D)', tag: '🍾', likes: '892', comments: 23 },
-    { g: 'linear-gradient(135deg, #4f0099, #FCB045)', tag: '🔥', likes: '2.1K', comments: 89 },
-    { g: 'linear-gradient(135deg, #FD1D1D, #833AB4)', tag: '💃', likes: '743', comments: 31 },
-    { g: 'linear-gradient(135deg, #FCB045, #4f0099)', tag: '🎧', likes: '1.5K', comments: 62 },
-    { g: 'linear-gradient(135deg, #833AB4, #FCB045)', tag: '✨', likes: '956', comments: 28 },
-    { g: 'linear-gradient(135deg, #FD1D1D, #FCB045)', tag: '🥃', likes: '1.8K', comments: 71 },
-    { g: 'linear-gradient(135deg, #4f0099, #FD1D1D)', tag: '🎉', likes: '643', comments: 19 },
-    { g: 'linear-gradient(135deg, #833AB4, #4f0099)', tag: '🏁', likes: '2.4K', comments: 94 },
-  ],
-  tiktok: [
-    { g: 'linear-gradient(135deg, #25F4EE, #000)', cap: 'Weekend recap 🔥 Best Lounge in Kigali', views: '48.2K', likes: '4.1K' },
-    { g: 'linear-gradient(135deg, #FE2C55, #25F4EE)', cap: 'Midweek turn-ups hit different here 🍾', views: '32.7K', likes: '2.8K' },
-    { g: 'linear-gradient(135deg, #000, #FE2C55)', cap: 'Paddock 1st Anniversary 🎉', views: '127K', likes: '12.4K' },
-    { g: 'linear-gradient(135deg, #FE2C55, #000)', cap: 'Friday night energy ⚡ Epic Fridays', views: '67.1K', likes: '5.9K' },
-    { g: 'linear-gradient(135deg, #25F4EE, #FE2C55)', cap: 'Saturday turnup 🔥 #homeofvibes', views: '54.3K', likes: '4.7K' },
-    { g: 'linear-gradient(135deg, #000, #25F4EE)', cap: 'Ladies night affair 💃 Thursdays', views: '41.8K', likes: '3.6K' },
-  ],
-  youtube: [
-    { g: 'linear-gradient(135deg, #1a0000, #FF0000)', title: 'Inside Paddock Lounge — Kigali\'s F1 Hotspot', views: '12.4K', time: '3 days ago', dur: '4:32' },
-    { g: 'linear-gradient(135deg, #FF0000, #4a0000)', title: 'Weekend Recap — Best Moments', views: '8.1K', time: '1 week ago', dur: '6:15' },
-    { g: 'linear-gradient(135deg, #4a0000, #FF0000)', title: 'How We Make Signature Cocktails', views: '5.7K', time: '2 weeks ago', dur: '8:48' },
-    { g: 'linear-gradient(135deg, #1a0000, #cc0000)', title: 'Behind the Scenes — VIP Tour', views: '11.2K', time: '3 weeks ago', dur: '5:21' },
-    { g: 'linear-gradient(135deg, #FF0000, #1a0000)', title: 'DJ Krest Live at Epic Fridays', views: '24.6K', time: '1 month ago', dur: '12:04' },
-    { g: 'linear-gradient(135deg, #cc0000, #FF0000)', title: '1 Year Anniversary Highlights', views: '38.9K', time: '2 months ago', dur: '7:33' },
-  ],
-};
+/* ========= Fallback sample data (used when Instagram API is unavailable) ========= */
+const FALLBACK_IG_POSTS = [
+  { g: 'linear-gradient(135deg, #833AB4, #FD1D1D)', tag: '🏎️', likes: '1.2K', comments: 47 },
+  { g: 'linear-gradient(135deg, #FCB045, #FD1D1D)', tag: '🍾', likes: '892', comments: 23 },
+  { g: 'linear-gradient(135deg, #4f0099, #FCB045)', tag: '🔥', likes: '2.1K', comments: 89 },
+  { g: 'linear-gradient(135deg, #FD1D1D, #833AB4)', tag: '💃', likes: '743', comments: 31 },
+  { g: 'linear-gradient(135deg, #FCB045, #4f0099)', tag: '🎧', likes: '1.5K', comments: 62 },
+  { g: 'linear-gradient(135deg, #833AB4, #FCB045)', tag: '✨', likes: '956', comments: 28 },
+  { g: 'linear-gradient(135deg, #FD1D1D, #FCB045)', tag: '🥃', likes: '1.8K', comments: 71 },
+  { g: 'linear-gradient(135deg, #4f0099, #FD1D1D)', tag: '🎉', likes: '643', comments: 19 },
+  { g: 'linear-gradient(135deg, #833AB4, #4f0099)', tag: '🏁', likes: '2.4K', comments: 94 },
+];
 
+const POSTS_TT = [
+  { g: 'linear-gradient(135deg, #25F4EE, #000)', cap: 'Weekend recap 🔥 Best Lounge in Kigali', views: '48.2K', likes: '4.1K' },
+  { g: 'linear-gradient(135deg, #FE2C55, #25F4EE)', cap: 'Midweek turn-ups hit different here 🍾', views: '32.7K', likes: '2.8K' },
+  { g: 'linear-gradient(135deg, #000, #FE2C55)', cap: 'Paddock 1st Anniversary 🎉', views: '127K', likes: '12.4K' },
+  { g: 'linear-gradient(135deg, #FE2C55, #000)', cap: 'Friday night energy ⚡ Epic Fridays', views: '67.1K', likes: '5.9K' },
+  { g: 'linear-gradient(135deg, #25F4EE, #FE2C55)', cap: 'Saturday turnup 🔥 #homeofvibes', views: '54.3K', likes: '4.7K' },
+  { g: 'linear-gradient(135deg, #000, #25F4EE)', cap: 'Ladies night affair 💃 Thursdays', views: '41.8K', likes: '3.6K' },
+];
+
+const POSTS_YT = [
+  { g: 'linear-gradient(135deg, #1a0000, #FF0000)', title: 'Inside Paddock Lounge — Kigali\'s F1 Hotspot', views: '12.4K', time: '3 days ago', dur: '4:32' },
+  { g: 'linear-gradient(135deg, #FF0000, #4a0000)', title: 'Weekend Recap — Best Moments', views: '8.1K', time: '1 week ago', dur: '6:15' },
+  { g: 'linear-gradient(135deg, #4a0000, #FF0000)', title: 'How We Make Signature Cocktails', views: '5.7K', time: '2 weeks ago', dur: '8:48' },
+  { g: 'linear-gradient(135deg, #1a0000, #cc0000)', title: 'Behind the Scenes — VIP Tour', views: '11.2K', time: '3 weeks ago', dur: '5:21' },
+  { g: 'linear-gradient(135deg, #FF0000, #1a0000)', title: 'DJ Krest Live at Epic Fridays', views: '24.6K', time: '1 month ago', dur: '12:04' },
+  { g: 'linear-gradient(135deg, #cc0000, #FF0000)', title: '1 Year Anniversary Highlights', views: '38.9K', time: '2 months ago', dur: '7:33' },
+];
+
+/* ========= Component ========= */
 export default function SocialSidebar() {
   const [active, setActive] = useState<Platform>('instagram');
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  // ─── Live Instagram state ───
+  const [igPosts, setIgPosts] = useState<InstagramPost[] | null>(null);
+  const [igStories, setIgStories] = useState<InstagramStory[]>([]);
+  const [igLoading, setIgLoading] = useState(true);
+  const [viewingStory, setViewingStory] = useState<number | null>(null);
+
+  // Fetch real Instagram posts & stories
+  useEffect(() => {
+    let cancelled = false;
+
+    // Fetch feed
+    fetch('/api/instagram/feed?limit=9')
+      .then(r => r.json())
+      .then(data => {
+        if (!cancelled && !data.fallback && data.posts?.length > 0) {
+          setIgPosts(data.posts);
+        }
+      })
+      .catch(() => {/* fallback to hardcoded */})
+      .finally(() => { if (!cancelled) setIgLoading(false); });
+
+    // Fetch stories
+    fetch('/api/instagram/stories')
+      .then(r => r.json())
+      .then(data => {
+        if (!cancelled && !data.fallback && data.stories?.length > 0) {
+          setIgStories(data.stories);
+        }
+      })
+      .catch(() => {/* no stories */});
+
+    return () => { cancelled = true; };
+  }, []);
 
   // Lock body scroll when mobile panel is open
   useEffect(() => {
@@ -130,70 +173,163 @@ export default function SocialSidebar() {
     return () => { document.body.style.overflow = ''; };
   }, [mobileOpen]);
 
+  // Lock body scroll when viewing story
+  useEffect(() => {
+    if (viewingStory !== null) {
+      document.body.style.overflow = 'hidden';
+    } else if (!mobileOpen) {
+      document.body.style.overflow = '';
+    }
+  }, [viewingStory, mobileOpen]);
+
   const handleIconClick = (p: Platform) => {
     setActive(p);
     setMobileOpen(true);
   };
 
   const profile = PROFILES[active];
-  const posts = POSTS[active];
+  const useRealIG = igPosts !== null && igPosts.length > 0;
+
+  // Story viewer navigation
+  const nextStory = useCallback(() => {
+    if (viewingStory !== null && viewingStory < igStories.length - 1) {
+      setViewingStory(viewingStory + 1);
+    } else {
+      setViewingStory(null);
+    }
+  }, [viewingStory, igStories.length]);
+
+  const prevStory = useCallback(() => {
+    if (viewingStory !== null && viewingStory > 0) {
+      setViewingStory(viewingStory - 1);
+    }
+  }, [viewingStory]);
+
+  // ─── Stories row (shown when IG active & stories exist) ───
+  const renderStories = () => {
+    if (igStories.length === 0) return null;
+    return (
+      <div className={styles.storiesRow}>
+        {igStories.map((story, i) => (
+          <div key={story.id} onClick={() => setViewingStory(i)} style={{ cursor: 'pointer' }}>
+            <div className={styles.storyRing}>
+              <div className={styles.storyRingInner}>
+                {story.media_type === 'VIDEO' ? (
+                  <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #833AB4, #FD1D1D)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span style={{ fontSize: 12, color: '#fff' }}>▶</span>
+                  </div>
+                ) : (
+                  <img src={story.media_url} alt="" className={styles.storyThumb} loading="lazy" />
+                )}
+              </div>
+            </div>
+            <p className={styles.storyLabel}>Story {i + 1}</p>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  // ─── Instagram feed (real or fallback) ───
+  const renderIGFeed = () => {
+    if (igLoading) {
+      return (
+        <div className={styles.igFeed}>
+          {[1, 2, 3].map(i => (
+            <div key={i} className={styles.igSkeleton} />
+          ))}
+        </div>
+      );
+    }
+
+    if (useRealIG) {
+      return (
+        <div className={styles.igFeed}>
+          {igPosts.map((post) => (
+            <a key={post.id} href={post.permalink} target="_blank" rel="noopener noreferrer" className={styles.igPost}>
+              <div className={styles.igPostImage}>
+                {post.media_type === 'VIDEO' ? (
+                  <img
+                    src={post.thumbnail_url || post.media_url}
+                    alt={post.caption?.slice(0, 60) || 'Paddock Lounge'}
+                    className={styles.igPostImg}
+                    loading="lazy"
+                  />
+                ) : (
+                  <img
+                    src={post.media_url}
+                    alt={post.caption?.slice(0, 60) || 'Paddock Lounge'}
+                    className={styles.igPostImg}
+                    loading="lazy"
+                  />
+                )}
+              </div>
+              <div className={styles.igPostFooter}>
+                <span className={styles.igAction}>♡ {formatCount(post.like_count)}</span>
+                <span className={styles.igAction}>💬 {post.comments_count}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      );
+    }
+
+    // Fallback: hardcoded gradient posts
+    return (
+      <div className={styles.igFeed}>
+        {FALLBACK_IG_POSTS.map((post, i) => (
+          <a key={i} href={profile.link} target="_blank" rel="noopener noreferrer" className={styles.igPost}>
+            <div className={styles.igPostImage} style={{ background: post.g }}>
+              <span className={styles.igEmoji}>{post.tag}</span>
+            </div>
+            <div className={styles.igPostFooter}>
+              <span className={styles.igAction}>♡ {post.likes}</span>
+              <span className={styles.igAction}>💬 {post.comments}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    );
+  };
 
   const renderFeed = () => (
     <>
       {active === 'instagram' && (
-        <div className={styles.igFeed}>
-          {posts.map((p, i) => {
-            const post = p as { g: string; tag: string; likes: string; comments: number };
-            return (
-              <a key={i} href={profile.link} target="_blank" rel="noopener noreferrer" className={styles.igPost}>
-                <div className={styles.igPostImage} style={{ background: post.g }}>
-                  <span className={styles.igEmoji}>{post.tag}</span>
-                </div>
-                <div className={styles.igPostFooter}>
-                  <span className={styles.igAction}>♡ {post.likes}</span>
-                  <span className={styles.igAction}>💬 {post.comments}</span>
-                </div>
-              </a>
-            );
-          })}
-        </div>
+        <>
+          {renderStories()}
+          {renderIGFeed()}
+        </>
       )}
       {active === 'tiktok' && (
         <div className={styles.ttList}>
-          {posts.map((p, i) => {
-            const post = p as { g: string; cap: string; views: string; likes: string };
-            return (
-              <a key={i} href={profile.link} target="_blank" rel="noopener noreferrer" className={styles.ttItem}>
-                <div className={styles.ttThumb} style={{ background: post.g }}>
-                  <span className={styles.ttPlay}>▶</span>
-                  <span className={styles.ttViews}>▶ {post.views}</span>
-                </div>
-                <div className={styles.ttInfo}>
-                  <p className={styles.ttCap}>{post.cap}</p>
-                  <p className={styles.ttMeta}>♡ {post.likes}</p>
-                </div>
-              </a>
-            );
-          })}
+          {POSTS_TT.map((post, i) => (
+            <a key={i} href={profile.link} target="_blank" rel="noopener noreferrer" className={styles.ttItem}>
+              <div className={styles.ttThumb} style={{ background: post.g }}>
+                <span className={styles.ttPlay}>▶</span>
+                <span className={styles.ttViews}>▶ {post.views}</span>
+              </div>
+              <div className={styles.ttInfo}>
+                <p className={styles.ttCap}>{post.cap}</p>
+                <p className={styles.ttMeta}>♡ {post.likes}</p>
+              </div>
+            </a>
+          ))}
         </div>
       )}
       {active === 'youtube' && (
         <div className={styles.ytList}>
-          {posts.map((p, i) => {
-            const post = p as { g: string; title: string; views: string; time: string; dur: string };
-            return (
-              <a key={i} href={profile.link} target="_blank" rel="noopener noreferrer" className={styles.ytItem}>
-                <div className={styles.ytThumb} style={{ background: post.g }}>
-                  <span className={styles.ytPlay}>▶</span>
-                  <span className={styles.ytDur}>{post.dur}</span>
-                </div>
-                <div className={styles.ytInfo}>
-                  <p className={styles.ytTitle}>{post.title}</p>
-                  <p className={styles.ytMeta}>{post.views} views · {post.time}</p>
-                </div>
-              </a>
-            );
-          })}
+          {POSTS_YT.map((post, i) => (
+            <a key={i} href={profile.link} target="_blank" rel="noopener noreferrer" className={styles.ytItem}>
+              <div className={styles.ytThumb} style={{ background: post.g }}>
+                <span className={styles.ytPlay}>▶</span>
+                <span className={styles.ytDur}>{post.dur}</span>
+              </div>
+              <div className={styles.ytInfo}>
+                <p className={styles.ytTitle}>{post.title}</p>
+                <p className={styles.ytMeta}>{post.views} views · {post.time}</p>
+              </div>
+            </a>
+          ))}
         </div>
       )}
     </>
@@ -201,7 +337,7 @@ export default function SocialSidebar() {
 
   return (
     <>
-      {/* ===== Desktop: inline sidebar (unchanged) ===== */}
+      {/* ===== Desktop: inline sidebar ===== */}
       <div className={styles.wrapper}>
         <div className={styles.iconTabs}>
           {(['instagram', 'tiktok', 'youtube'] as Platform[]).map((p) => (
@@ -300,6 +436,50 @@ export default function SocialSidebar() {
             {/* Scrollable feed */}
             <div className={styles.mobilePanelBody}>{renderFeed()}</div>
           </div>
+        </div>
+      )}
+
+      {/* ===== Full-screen Story Viewer ===== */}
+      {viewingStory !== null && igStories[viewingStory] && (
+        <div className={styles.storyViewer} onClick={() => setViewingStory(null)}>
+          {/* Progress bars */}
+          <div className={styles.storyProgress}>
+            {igStories.map((_, i) => (
+              <div key={i} className={styles.storyProgressBar}>
+                <div
+                  className={styles.storyProgressFill}
+                  style={{ width: i < viewingStory ? '100%' : i === viewingStory ? '100%' : '0%' }}
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Close */}
+          <button className={styles.storyViewerClose} onClick={() => setViewingStory(null)}>✕</button>
+
+          {/* Media */}
+          {igStories[viewingStory].media_type === 'VIDEO' ? (
+            <video
+              src={igStories[viewingStory].media_url}
+              className={styles.storyViewerMedia}
+              autoPlay
+              playsInline
+              muted
+              onClick={(e) => e.stopPropagation()}
+              onEnded={nextStory}
+            />
+          ) : (
+            <img
+              src={igStories[viewingStory].media_url}
+              alt=""
+              className={styles.storyViewerMedia}
+              onClick={(e) => e.stopPropagation()}
+            />
+          )}
+
+          {/* Navigation areas */}
+          <button className={`${styles.storyNav} ${styles.storyNavPrev}`} onClick={(e) => { e.stopPropagation(); prevStory(); }} aria-label="Previous story" />
+          <button className={`${styles.storyNav} ${styles.storyNavNext}`} onClick={(e) => { e.stopPropagation(); nextStory(); }} aria-label="Next story" />
         </div>
       )}
     </>

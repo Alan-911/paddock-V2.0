@@ -31,107 +31,115 @@
   color: #fff;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+.eventsScroll {
+  overflow: hidden;
+  position: relative;
+  /* Soft fade on edges */
+  mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  padding-bottom: 20px;
+}
+
+.eventsTrack {
+  display: flex;
+  width: max-content;
+  animation: marqueeEvents 40s linear infinite;
+}
+
+.eventsTrack:hover {
+  animation-play-state: paused;
+}
+
+.eventsSet {
+  display: flex;
   gap: 24px;
+  padding-right: 24px; /* Flawless loop padding */
 }
 
-.card {
+@keyframes marqueeEvents {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); } 
+}
+
+.dynamicContent {
+  margin-top: 24px;
+  min-height: 400px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 8px;
-  padding: 32px;
-  transition: border-color 0.3s, background 0.3s, transform 0.3s;
-}
-.card:hover {
-  border-color: rgba(212, 175, 55, 0.3);
-  background: rgba(255, 255, 255, 0.05);
-  transform: translateY(-3px);
 }
 
-.highlighted {
-  border-color: rgba(212, 175, 55, 0.4);
-  background: rgba(212, 175, 55, 0.04);
-}
-.highlighted:hover {
-  border-color: rgba(212, 175, 55, 0.7);
+
+/* ─── Instagram Feed Marquee ─── */
+.igCard {
+  width: 300px;
+  aspect-ratio: 4/5;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  background: #111;
+  border: 1px solid rgba(255,255,255,0.05);
 }
 
-.cardTop {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+.igCardMedia {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
 }
 
-.dateBadge {
-  display: flex;
-  flex-direction: column;
-  line-height: 1;
+.igCard:hover .igCardMedia {
+  transform: scale(1.05);
 }
 
-.dateNum {
-  font-family: var(--font-heading);
-  font-size: 42px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: -0.03em;
-  line-height: 1;
-}
-
-.dateMonth {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  color: var(--color-text-secondary);
-  margin-top: 4px;
-}
-
-.tag {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--color-accent-gold);
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  padding: 4px 10px;
-  border-radius: 2px;
-}
-
-.cardBody {
-  flex: 1;
-}
-
-.eventTitle {
-  font-family: var(--font-heading);
-  font-size: 22px;
-  font-weight: 600;
-  color: #fff;
-  margin-bottom: 10px;
-  letter-spacing: -0.01em;
-}
-
-.eventDesc {
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--color-text-secondary);
-}
-
-.cardLink {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-accent-gold);
+.igCardOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
   display: flex;
   align-items: center;
-  gap: 6px;
-  transition: gap 0.2s;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
-.cardLink:hover { gap: 10px; }
+
+.igCard:hover .igCardOverlay {
+  opacity: 1;
+}
+
+.igCardLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 12px 20px;
+  border-radius: 30px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.2);
+  transition: background 0.2s;
+}
+.igCardLink:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.igCardFallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.3);
+  font-size: 14px;
+}
+.igCardFallbackIcon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
 
 .footer {
   margin-top: 56px;
@@ -154,30 +162,19 @@
 }
 
 @media (max-width: 900px) {
-  .grid { grid-template-columns: 1fr 1fr; }
+  .igCard { width: 260px; }
 }
 
 @media (max-width: 600px) {
   .section { padding: 44px 0 32px; }
   .container { padding: 0 20px; }
   .header { margin-bottom: 24px; }
-  .grid {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
+  .eventsSet {
     gap: 12px;
-    padding-bottom: 12px;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+    padding-right: 12px;
   }
-  .grid::-webkit-scrollbar {
-    display: none;
-  }
-  .card {
-    min-width: 78vw;
-    scroll-snap-align: center;
-    padding: 20px;
-    gap: 14px;
+  .igCard {
+    width: 240px;
   }
   .dateNum { font-size: 32px; }
   .eventTitle { font-size: 18px; margin-bottom: 6px; }
@@ -190,10 +187,8 @@
   .section { padding: 36px 0 24px; }
   .container { padding: 0 16px; }
   .header { margin-bottom: 20px; }
-  .card {
-    min-width: 82vw;
-    padding: 16px;
-    gap: 12px;
+  .igCard {
+    width: 200px;
   }
   .dateNum { font-size: 28px; }
   .eventTitle { font-size: 16px; margin-bottom: 4px; }

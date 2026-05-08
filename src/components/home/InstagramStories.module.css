@@ -1,0 +1,331 @@
+/* ============================================================
+   InstagramStories — Instagram-style story bubbles + viewer
+   Used in WhatsOnSection (homepage) and Events page
+   ============================================================ */
+
+.storiesContainer {
+  margin-bottom: 40px;
+}
+
+.storiesLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent-gold);
+  margin-bottom: 16px;
+}
+
+.igIcon {
+  opacity: 0.9;
+}
+
+/* ─── Horizontal scroll row ─── */
+.storiesScroll {
+  overflow: hidden;
+  padding-bottom: 8px;
+  position: relative;
+  /* Soft fade on edges */
+  mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+}
+
+.storiesTrack {
+  display: flex;
+  width: max-content;
+  /* NO GAP HERE. The gap is handled by the padding inside .storiesSet */
+  animation: marqueeStories 25s linear infinite;
+}
+
+.storiesTrack:hover {
+  animation-play-state: paused;
+}
+
+.storiesSet {
+  display: flex;
+  gap: 16px;
+  /* The padding-right exactly matches the gap, making the distance between sets flawless */
+  padding-right: 16px;
+}
+
+@keyframes marqueeStories {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); } 
+}
+
+/* ─── Individual story item ─── */
+.storyItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ─── Ring (Instagram gradient border) ─── */
+.storyRing {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  transition: transform 0.2s ease;
+}
+
+.storyItem:hover .storyRing {
+  transform: scale(1.08);
+}
+
+.storyRingProfile {
+  background: linear-gradient(45deg, var(--color-accent-gold), #b8860b);
+}
+
+.storyRingInner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2.5px solid #050505;
+  overflow: hidden;
+  background: #1a1a1a;
+}
+
+/* ─── Thumbnail inside ring ─── */
+.storyThumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.storyThumbPlaceholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #833AB4, #FD1D1D);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Paddock profile bubble */
+.profileBubble {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profileLetter {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-accent-gold);
+  font-family: var(--font-heading);
+}
+
+/* ─── Labels ─── */
+.storyName {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 68px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* ─── Skeleton ─── */
+.storySkeleton {
+  background: rgba(255, 255, 255, 0.08) !important;
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+
+.storyNameSkeleton {
+  display: block;
+  width: 40px;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+/* ============================================================
+   Story Viewer — full-screen overlay
+   ============================================================ */
+
+.viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Progress bars */
+.viewerProgress {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  gap: 4px;
+  z-index: 3;
+}
+
+.viewerProgressBar {
+  flex: 1;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.viewerProgressFill {
+  height: 100%;
+  background: #fff;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* Header */
+.viewerHeader {
+  position: absolute;
+  top: 28px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 3;
+}
+
+.viewerProfile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.viewerProfilePic {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+  border: 2px solid var(--color-accent-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--color-accent-gold);
+  font-family: var(--font-heading);
+}
+
+.viewerProfileName {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.viewerProfileTime {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.viewerClose {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.viewerClose:hover {
+  opacity: 1;
+}
+
+/* Media */
+.viewerMedia {
+  max-width: min(420px, 90vw);
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 12px;
+  cursor: default;
+}
+
+/* Navigation areas */
+.viewerNav {
+  position: absolute;
+  top: 80px;
+  bottom: 0;
+  width: 40%;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.viewerNavPrev {
+  left: 0;
+}
+
+.viewerNavNext {
+  right: 0;
+}
+
+/* ─── Animation for story auto-advance ─── */
+@keyframes storyFill {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+/* ─── Responsive ─── */
+
+@media (max-width: 600px) {
+  .storiesContainer {
+    margin-bottom: 24px;
+  }
+
+  .storyRing {
+    width: 58px;
+    height: 58px;
+  }
+
+  .storiesSet {
+    gap: 12px;
+    padding-right: 12px;
+  }
+
+  .storyName {
+    font-size: 9px;
+    max-width: 58px;
+  }
+
+  .profileLetter {
+    font-size: 20px;
+  }
+
+  .viewerMedia {
+    max-width: 100vw;
+    max-height: 75vh;
+    border-radius: 0;
+  }
+}

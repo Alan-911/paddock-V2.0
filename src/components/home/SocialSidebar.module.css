@@ -224,6 +224,159 @@
   font-size: 36px;
 }
 
+/* Real Instagram image inside igPostImage */
+.igPostImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Loading skeleton for Instagram posts */
+.igSkeleton {
+  width: 100%;
+  aspect-ratio: 1;
+  background: linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0.04) 8%,
+    rgba(255, 255, 255, 0.08) 18%,
+    rgba(255, 255, 255, 0.04) 33%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+@keyframes skeletonShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ====== Instagram Stories Row ====== */
+.storiesRow {
+  display: flex;
+  gap: 8px;
+  padding: 8px 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+.storiesRow::-webkit-scrollbar { display: none; }
+
+.storyRing {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(45deg, #FCB045, #FD1D1D, #833AB4);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.storyRing:hover { transform: scale(1.08); }
+
+.storyRingInner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid #0a0a0a;
+  overflow: hidden;
+}
+
+.storyThumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.storyLabel {
+  font-size: 7px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 48px;
+}
+
+/* Story viewer overlay */
+.storyViewer {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: storyFadeIn 0.2s ease;
+}
+
+@keyframes storyFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.storyViewerMedia {
+  max-width: 90vw;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+.storyViewerClose {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  z-index: 10;
+}
+
+.storyProgress {
+  position: absolute;
+  top: 12px;
+  left: 20px;
+  right: 70px;
+  display: flex;
+  gap: 4px;
+}
+
+.storyProgressBar {
+  flex: 1;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.storyProgressFill {
+  height: 100%;
+  background: #fff;
+  border-radius: 1px;
+}
+
+.storyNav {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40%;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+.storyNavPrev { left: 0; }
+.storyNavNext { right: 0; }
+
 .igPostFooter {
   display: flex;
   align-items: center;
@@ -440,47 +593,48 @@
   /* Hide desktop sidebar */
   .wrapper { display: none; }
 
-  /* Show mobile floating icons — fixed right edge */
+  /* Show mobile floating icons — bottom-left, horizontal row above bottom bar */
   .mobileIcons {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     position: fixed;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
+    left: 16px;
+    bottom: 80px;
     z-index: 90;
-    gap: 8px;
+    gap: 6px;
   }
 
   .mobileIconBtn {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(0, 0, 0, 0.55);
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     cursor: pointer;
-    transition: transform 0.2s, background 0.2s;
+    transition: transform 0.2s, background 0.2s, opacity 0.2s;
     padding: 0;
+    opacity: 0.75;
   }
 
   .mobileIconBtn:active {
     transform: scale(0.92);
     background: rgba(0, 0, 0, 0.7);
+    opacity: 1;
   }
 
   .mobileIconBtn .iconWrap {
-    width: 26px;
-    height: 26px;
+    width: 22px;
+    height: 22px;
   }
 
   .mobileIconBtn .iconWrap svg {
-    width: 26px;
-    height: 26px;
+    width: 22px;
+    height: 22px;
   }
 
   /* ====== Mobile slide-in overlay ====== */

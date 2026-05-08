@@ -212,6 +212,22 @@
   .glassColumn {
     padding: 30px 24px;
   }
+  /* Fix footer background image — cover keeps aspect ratio, dim it heavily
+     so it's an ambient texture, not competing with footer text */
+  .bgImage {
+    background-size: cover;
+    background-position: center top;
+    filter: brightness(0.35) contrast(1.1);
+  }
+  /* Lighter overlay since image is already dimmed */
+  .bgOverlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(3, 3, 3, 0.5) 0%,
+      rgba(3, 3, 3, 0.35) 50%,
+      rgba(3, 3, 3, 0.6) 100%
+    );
+  }
   .copyrightInner {
     flex-direction: column;
     gap: 8px;

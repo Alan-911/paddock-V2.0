@@ -19,7 +19,7 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
-  padding: 10px 0 14px;
+  padding: 10px 0 max(14px, env(safe-area-inset-bottom, 14px));
   font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.08em;

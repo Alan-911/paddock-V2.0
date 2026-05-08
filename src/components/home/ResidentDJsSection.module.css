@@ -291,6 +291,70 @@
   line-height: 1;
 }
 
+/* =========================================
+   Instagram Highlights (Modal)
+   ========================================= */
+.igSection {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.igTitle {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 16px;
+}
+
+.igGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 12px;
+}
+
+.igPost {
+  position: relative;
+  aspect-ratio: 1/1;
+  border-radius: 8px;
+  overflow: hidden;
+  display: block;
+}
+
+.igImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.igPost:hover .igImg {
+  transform: scale(1.05);
+}
+
+.igOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.igPost:hover .igOverlay {
+  opacity: 1;
+}
+
+.igIcon {
+  color: #fff;
+  width: 20px;
+  height: 20px;
+}
+
 /* Mobile Responsive */
 @media (max-width: 900px) {
   .modalContent {

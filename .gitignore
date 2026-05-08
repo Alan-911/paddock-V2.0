@@ -51,3 +51,4 @@ scratch/
 *.png
 !public/*.png
 !public/**/*.png
+.vercel

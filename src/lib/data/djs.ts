@@ -7,6 +7,7 @@ export type ResidentDJ = {
   tagline: string;
   bio: string;
   achievements: string[];
+  igKeywords?: string[];
 };
 
 export const residentDJs: ResidentDJ[] = [
@@ -21,7 +22,8 @@ export const residentDJs: ResidentDJ[] = [
       'Best DJ of the Year at Diva Awards Rwanda 2025',
       'Official DJ for The Ben',
       'Resident performer at Atmosphera Kigali'
-    ]
+    ],
+    igKeywords: ['djflixx', 'flixx', 'theben']
   },
   {
     id: 'dj-lamper',
@@ -35,7 +37,8 @@ export const residentDJs: ResidentDJ[] = [
       'Founder of the groundbreaking Atmosfera Kigali event brand',
       'Headlined major events including "Fiesta" and "Twese"',
       'Performed at the prestigious BK Arena'
-    ]
+    ],
+    igKeywords: ['djlamper', 'lamper', 'atmosfera']
   },
   {
     id: 'dj-toxxyk',
@@ -49,7 +52,8 @@ export const residentDJs: ResidentDJ[] = [
       'Shared stages with Burna Boy, Davido, and John Legend at Move Afrika',
       'Released debut EP "AYDEN" in 2022',
       'Signature "Toxic Experience" event series'
-    ]
+    ],
+    igKeywords: ['djtoxxyk', 'toxxyk', 'toxicexperience']
   },
   {
     id: 'dj-crush',
@@ -63,7 +67,8 @@ export const residentDJs: ResidentDJ[] = [
       'Performed at the Amahoro Stadium for the Heroes Cup 2026 final',
       'Official DJ at the Tour du Rwanda',
       'Recognized for live mixing in radio and studio sessions'
-    ]
+    ],
+    igKeywords: ['djcrush', 'crush', 'wabo']
   },
   {
     id: 'deejay-kelly250',
@@ -77,6 +82,7 @@ export const residentDJs: ResidentDJ[] = [
       'Over 15 years pioneering Rwanda\'s club scene',
       'Completed a 24-hour non-stop DJ performance record in 2021',
       'Key member of the Ruffcuts DJs collective'
-    ]
+    ],
+    igKeywords: ['kelly250', 'djkelly', 'kelly']
   }
 ];

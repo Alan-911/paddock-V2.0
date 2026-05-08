@@ -46,11 +46,56 @@
   border-color: rgba(212, 175, 55, 0.3);
 }
 
+.eventImageWrap {
+  position: relative;
+  overflow: hidden;
+}
+
 .eventImage {
   width: 100%;
   height: 240px;
   object-fit: cover;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: transform 0.5s ease;
+}
+
+.eventCard:hover .eventImage {
+  transform: scale(1.05);
+}
+
+.igBadge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+}
+
+.eventCard:hover .igBadge {
+  opacity: 1;
+}
+
+.specialBadge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 10px;
+  background: var(--color-accent-gold);
+  color: #000;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  border-radius: 4px;
+  z-index: 2;
 }
 
 .eventContent {
@@ -117,9 +162,158 @@
   border-color: #fff;
 }
 
+/* ─── Instagram Highlights Gallery ─── */
+
+.highlightsSection {
+  max-width: 1280px;
+  margin: 100px auto 0;
+  padding: 0 32px;
+}
+
+.highlightsHeader {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.highlightsEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent-gold);
+  margin-bottom: 12px;
+}
+
+.highlightsTitle {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.highlightsSubtitle {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.highlightsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+.highlightCard {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.highlightImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.highlightCard:hover .highlightImg {
+  transform: scale(1.08);
+}
+
+.highlightOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.highlightCard:hover .highlightOverlay {
+  opacity: 1;
+}
+
+.videoIcon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  opacity: 0.9;
+}
+
+.highlightStats {
+  display: flex;
+  gap: 16px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.highlightStats span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.highlightsFooter {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.followButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.followButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(220, 39, 67, 0.3);
+}
+
+/* ─── Responsive ─── */
+
+@media (max-width: 1024px) {
+  .highlightsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
   .eventsGrid {
     padding: 0 20px;
     grid-template-columns: 1fr;
+  }
+
+  .highlightsSection {
+    padding: 0 16px;
+    margin-top: 64px;
+  }
+
+  .highlightsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3px;
+  }
+
+  .followButton {
+    width: 100%;
+    justify-content: center;
   }
 }
