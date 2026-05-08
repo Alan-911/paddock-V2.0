@@ -107,23 +107,18 @@
   opacity: 1;
 }
 
-.igCardLink {
+.igCardStats {
+  display: flex;
+  gap: 20px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.igCardStat {
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: #fff;
-  font-weight: 600;
-  font-size: 14px;
-  padding: 12px 20px;
-  border-radius: 30px;
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.2);
-  transition: background 0.2s;
-}
-.igCardLink:hover {
-  background: rgba(255,255,255,0.2);
+  gap: 6px;
 }
 
 .igCardFallback {
@@ -139,6 +134,45 @@
 .igCardFallbackIcon {
   font-size: 32px;
   margin-bottom: 12px;
+}
+
+/* ─── Profile Header ─── */
+.igProfileHeader {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.igProfileInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.igProfileName {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.igProfileName:hover {
+  color: var(--color-accent-gold);
+}
+
+.igStats {
+  display: flex;
+  gap: 32px;
+  font-size: 16px;
+  color: rgba(255,255,255,0.8);
+}
+
+.igStat strong {
+  color: #fff;
+  font-weight: 700;
 }
 
 .footer {
