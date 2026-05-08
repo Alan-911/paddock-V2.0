@@ -22,6 +22,8 @@ export default function PaddockChatbot() {
   const [isTyping, setIsTyping] = useState(false);
   const [showBooking, setShowBooking] = useState(false);
   const [hasOpened, setHasOpened] = useState(false);
+  const [languageSelected, setLanguageSelected] = useState(false);
+  const [showAvatar, setShowAvatar] = useState(false);
   const msgIdRef = useRef(0);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -185,6 +187,9 @@ export default function PaddockChatbot() {
   };
 
   const handleQuickAction = (action: QuickAction) => {
+    if (action.isLanguageBtn) {
+      setLanguageSelected(true);
+    }
     sendMessage(action.value);
   };
 
@@ -260,7 +265,7 @@ export default function PaddockChatbot() {
         <div className={styles.panel}>
           {/* Header */}
           <div className={styles.panelHeader}>
-            <div className={styles.headerAvatar}>
+            <div className={styles.headerAvatar} onClick={() => setShowAvatar(true)} style={{ cursor: 'pointer' }}>
               <Image src="/chatbot-avatar.png" alt="Keza" width={38} height={38} style={{ borderRadius: '50%', objectFit: 'cover', width: '100%', height: '100%' }} />
             </div>
             <div className={styles.headerInfo}>
@@ -290,7 +295,7 @@ export default function PaddockChatbot() {
                       {msg.quickActions.map((action, i) => (
                         <button
                           key={i}
-                          className={styles.quickBtn}
+                          className={action.isLanguageBtn ? styles.languageBtn : styles.quickBtn}
                           onClick={() => handleQuickAction(action)}
                         >
                           {action.label}
@@ -318,23 +323,25 @@ export default function PaddockChatbot() {
             <div ref={chatEndRef} />
           </div>
 
-          {/* Input */}
-          <form className={styles.inputArea} onSubmit={handleSubmit}>
-            <input
-              ref={inputRef}
-              className={styles.input}
-              type="text"
-              placeholder="Ask about menu, events, VIP..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              autoComplete="off"
-            />
-            <button type="submit" className={styles.sendBtn} disabled={!input.trim()} aria-label="Send message">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-              </svg>
-            </button>
-          </form>
+          {/* Input - Hidden until language is selected */}
+          {languageSelected && (
+            <form className={styles.inputArea} onSubmit={handleSubmit}>
+              <input
+                ref={inputRef}
+                className={styles.input}
+                type="text"
+                placeholder="Ask about menu, events, VIP..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                autoComplete="off"
+              />
+              <button type="submit" className={styles.sendBtn} disabled={!input.trim()} aria-label="Send message">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                </svg>
+              </button>
+            </form>
+          )}
 
           {/* Branding */}
           <div className={styles.panelFooter}>
@@ -345,6 +352,18 @@ export default function PaddockChatbot() {
 
       {/* Booking Modal */}
       <BookingModal isOpen={showBooking} onClose={() => setShowBooking(false)} />
+
+      {/* Avatar Image Modal */}
+      {showAvatar && (
+        <div className={styles.avatarModal} onClick={() => setShowAvatar(false)}>
+          <div className={styles.avatarModalContent} onClick={e => e.stopPropagation()}>
+            <button className={styles.closeAvatarBtn} onClick={() => setShowAvatar(false)}>
+              ✕
+            </button>
+            <Image src="/chatbot-avatar.png" alt="Keza" width={400} height={500} style={{ objectFit: 'cover', width: '100%', height: '100%', borderRadius: '16px' }} />
+          </div>
+        </div>
+      )}
     </>
   );
 }

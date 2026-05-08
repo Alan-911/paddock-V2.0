@@ -4,6 +4,7 @@
 export type QuickAction = {
   label: string;
   value: string;
+  isLanguageBtn?: boolean;
 };
 
 export type BotResponse = {
@@ -271,8 +272,13 @@ export function getResponse(input: string): BotResponse {
 
 export function getWelcomeMessage(): BotResponse {
   return {
-    text: "Hey! I'm your Paddock AI concierge powered by Gemma 🎉\n\nI can help you book a table, explore our menu, check events, or answer any questions about the lounge.\n\nWhat would you like to know?",
-    quickActions: QUICK_ACTIONS_DEFAULT,
+    text: "Muraho! Hello! Bonjour! Jambo! 🥂\n\nI’m Keza, your guide to the Paddock experience.\nFrom the first sunset pour to the last late-night anthem, I’m here to help you discover the pulse of Kigali nightlife.\n\nWhether you speak Kinyarwanda, English, Français, or Kiswahili, your night starts here.",
+    quickActions: [
+      { label: '🇷🇼 Tuvugane mu Kinyarwanda', value: 'Let us chat in Kinyarwanda', isLanguageBtn: true },
+      { label: '🇬🇧 Let’s chat in English', value: 'Let us chat in English', isLanguageBtn: true },
+      { label: '🇫🇷 On parle Français', value: 'Let us chat in French', isLanguageBtn: true },
+      { label: '🌍 Tuzungumze kwa Kiswahili', value: 'Let us chat in Kiswahili', isLanguageBtn: true },
+    ],
   };
 }
 
