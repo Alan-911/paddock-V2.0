@@ -94,7 +94,7 @@ export async function POST(request: Request) {
 
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
-      model: 'gemma-3-4b-it',
+      model: 'gemma-4-31b-it',
       systemInstruction: SYSTEM_PROMPT,
     });
 
