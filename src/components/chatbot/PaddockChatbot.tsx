@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import styles from './PaddockChatbot.module.css';
 import { getResponse, getGemmaResponse, getWelcomeMessage, type BotResponse, type QuickAction } from './chatbotBrain';
 import BookingModal from '../booking/BookingModal';
@@ -229,7 +230,7 @@ export default function PaddockChatbot() {
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
           ) : (
-            'P'
+            <Image src="/chatbot-avatar.png" alt="Keza" width={60} height={60} style={{ borderRadius: '50%', objectFit: 'cover', width: '100%', height: '100%' }} />
           )}
         </span>
         {!isOpen && !hasOpened && (
@@ -259,9 +260,11 @@ export default function PaddockChatbot() {
         <div className={styles.panel}>
           {/* Header */}
           <div className={styles.panelHeader}>
-            <div className={styles.headerAvatar}>P</div>
+            <div className={styles.headerAvatar}>
+              <Image src="/chatbot-avatar.png" alt="Keza" width={38} height={38} style={{ borderRadius: '50%', objectFit: 'cover', width: '100%', height: '100%' }} />
+            </div>
             <div className={styles.headerInfo}>
-              <span className={styles.headerName}>Paddock Concierge</span>
+              <span className={styles.headerName}>KEZA</span>
               <span className={styles.headerStatus}>
                 <span className={styles.statusDot} />
                 Online now
@@ -279,7 +282,7 @@ export default function PaddockChatbot() {
           <div className={styles.messages}>
             {messages.map((msg) => (
               <div key={msg.id} className={`${styles.message} ${msg.from === 'user' ? styles.userMsg : styles.botMsg}`}>
-                {msg.from === 'bot' && <div className={styles.msgAvatar}>P</div>}
+                {msg.from === 'bot' && <div className={styles.msgAvatar}><Image src="/chatbot-avatar.png" alt="Keza" width={28} height={28} style={{ borderRadius: '50%', objectFit: 'cover', width: '100%', height: '100%' }} /></div>}
                 <div className={styles.msgBubble}>
                   <p className={styles.msgText}>{msg.text}</p>
                   {msg.quickActions && msg.quickActions.length > 0 && (
@@ -302,7 +305,7 @@ export default function PaddockChatbot() {
             {/* Typing indicator */}
             {isTyping && (
               <div className={`${styles.message} ${styles.botMsg}`}>
-                <div className={styles.msgAvatar}>P</div>
+                <div className={styles.msgAvatar}><Image src="/chatbot-avatar.png" alt="Keza" width={28} height={28} style={{ borderRadius: '50%', objectFit: 'cover', width: '100%', height: '100%' }} /></div>
                 <div className={styles.msgBubble}>
                   <div className={styles.typing}>
                     <span className={styles.typingDot} />
@@ -335,7 +338,7 @@ export default function PaddockChatbot() {
 
           {/* Branding */}
           <div className={styles.panelFooter}>
-            Powered by Gemma AI
+            HOME OF VIBES
           </div>
         </div>
       )}
