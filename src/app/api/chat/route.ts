@@ -79,7 +79,7 @@ const SYSTEM_PROMPT = `You are the Paddock Lounge AI Concierge — a friendly, k
 - For regular conversation, don't add any action tag.
 - Always be helpful, enthusiastic, and proud of Paddock Lounge.
 - If you don't know something specific, suggest contacting via WhatsApp (+250 788 471 841).
-- CRITICAL: DO NOT output any internal reasoning, thoughts, or bullet points about what the user said (e.g. do not output "User says: ..."). Output ONLY your final conversational response.`;
+- CRITICAL: You must wrap ALL of your internal reasoning, thoughts, or bullet points in <think>...</think> tags. Only your final conversational response should be outside the tags.`;
 
 export async function POST(request: Request) {
   try {
@@ -95,7 +95,7 @@ export async function POST(request: Request) {
 
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
-      model: 'gemma-4-31b-it',
+      model: 'gemini-2.5-flash',
       systemInstruction: SYSTEM_PROMPT,
     });
 
@@ -110,14 +110,14 @@ export async function POST(request: Request) {
     const result = await chat.sendMessage(lastMessage);
     const responseText = result.response.text();
 
-    // Parse action tags from response
+    // Parse action tags from response and remove <think> blocks
     let action: string | null = null;
-    let cleanText = responseText;
+    let cleanText = responseText.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
 
-    const actionMatch = responseText.match(/\[ACTION:(BOOK|MAP|MENU|EVENTS|VIP)\]/);
+    const actionMatch = cleanText.match(/\[ACTION:(BOOK|MAP|MENU|EVENTS|VIP)\]/);
     if (actionMatch) {
       action = actionMatch[1].toLowerCase();
-      cleanText = responseText.replace(/\[ACTION:\w+\]/g, '').trim();
+      cleanText = cleanText.replace(/\[ACTION:\w+\]/g, '').trim();
 
       // Map to our action names
       const actionMap: Record<string, string> = {
