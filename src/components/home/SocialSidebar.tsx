@@ -132,6 +132,7 @@ export default function SocialSidebar() {
   // ─── Live Instagram state ───
   const [igPosts, setIgPosts] = useState<InstagramPost[] | null>(null);
   const [igStories, setIgStories] = useState<InstagramStory[]>([]);
+  const [igProfile, setIgProfile] = useState<{followers: string, following: string, posts: string} | null>(null);
   const [igLoading, setIgLoading] = useState(true);
   const [viewingStory, setViewingStory] = useState<number | null>(null);
 
@@ -160,6 +161,20 @@ export default function SocialSidebar() {
       })
       .catch(() => {/* no stories */});
 
+    // Fetch profile stats
+    fetch('/api/instagram/profile')
+      .then(r => r.json())
+      .then(data => {
+        if (!cancelled && !data.fallback && data.profile) {
+          setIgProfile({
+            followers: formatCount(data.profile.followers_count),
+            following: formatCount(data.profile.follows_count),
+            posts: formatCount(data.profile.media_count),
+          });
+        }
+      })
+      .catch(() => {/* fallback to hardcoded stats */});
+
     return () => { cancelled = true; };
   }, []);
 
@@ -187,7 +202,11 @@ export default function SocialSidebar() {
     setMobileOpen(true);
   };
 
-  const profile = PROFILES[active];
+  let profile = PROFILES[active];
+  if (active === 'instagram' && igProfile) {
+    profile = { ...profile, ...igProfile };
+  }
+
   const useRealIG = igPosts !== null && igPosts.length > 0;
 
   // Story viewer navigation

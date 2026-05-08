@@ -21,6 +21,44 @@ function isFresh<T>(cache: CacheEntry<T> | null, ttl: number): boolean {
   return cache !== null && Date.now() - cache.timestamp < ttl;
 }
 
+// ─── Fetch Instagram Profile Stats ──────────────────────────────────
+export async function getInstagramProfile(): Promise<{
+  followers_count: number;
+  follows_count: number;
+  media_count: number;
+} | null> {
+  const token = process.env.INSTAGRAM_ACCESS_TOKEN;
+  const userId = process.env.INSTAGRAM_BUSINESS_ACCOUNT_ID;
+
+  if (!token || !userId || token === 'your_token_here') {
+    return null;
+  }
+
+  try {
+    const fields = 'followers_count,follows_count,media_count';
+    const url = `${IG_BASE_URL}/${userId}?fields=${fields}&access_token=${token}`;
+
+    const res = await fetch(url, {
+      next: { revalidate: 3600 }, // Cache for 1 hour
+    });
+
+    if (!res.ok) {
+      console.error(`[Instagram] Profile API error ${res.status}`);
+      return null;
+    }
+
+    const json = await res.json();
+    return {
+      followers_count: json.followers_count || 0,
+      follows_count: json.follows_count || 0,
+      media_count: json.media_count || 0,
+    };
+  } catch (error) {
+    console.error('[Instagram] Profile fetch error:', error);
+    return null;
+  }
+}
+
 // ─── Fetch Instagram Feed ─────────────────────────────────────────
 export async function getInstagramFeed(limit = 12): Promise<{
   posts: InstagramPost[];

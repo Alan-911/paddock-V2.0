@@ -136,45 +136,6 @@
   margin-bottom: 12px;
 }
 
-/* ─── Profile Header ─── */
-.igProfileHeader {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  margin-bottom: 32px;
-  padding-bottom: 32px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-
-.igProfileInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.igProfileName {
-  font-size: 24px;
-  font-weight: 700;
-  color: #fff;
-  text-decoration: none;
-  transition: color 0.2s;
-}
-.igProfileName:hover {
-  color: var(--color-accent-gold);
-}
-
-.igStats {
-  display: flex;
-  gap: 32px;
-  font-size: 16px;
-  color: rgba(255,255,255,0.8);
-}
-
-.igStat strong {
-  color: #fff;
-  font-weight: 700;
-}
-
 .footer {
   margin-top: 56px;
   text-align: center;

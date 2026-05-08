@@ -14,25 +14,6 @@ export default async function WhatsOnSection() {
           <h2 className={styles.title}>What&apos;s On at Paddock</h2>
         </div>
 
-        {/* ─── Instagram Profile Stats Header ─── */}
-        <div className={styles.igProfileHeader}>
-          <div className={styles.igProfileInfo}>
-            <a 
-              href="https://instagram.com/paddocklounge_f1" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className={styles.igProfileName}
-            >
-              @paddocklounge_f1
-            </a>
-            <div className={styles.igStats}>
-              <div className={styles.igStat}><strong>114</strong> Posts</div>
-              <div className={styles.igStat}><strong>10K</strong> Followers</div>
-              <div className={styles.igStat}><strong>103</strong> Following</div>
-            </div>
-          </div>
-        </div>
-
         <div className={styles.dynamicContent}>
           {/* ─── Instagram Feed Marquee ─── */}
           <div className={styles.eventsScroll}>
