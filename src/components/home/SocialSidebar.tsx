@@ -227,24 +227,27 @@ export default function SocialSidebar() {
   // ─── Stories row (shown when IG active & stories exist) ───
   const renderStories = () => {
     if (igStories.length === 0) return null;
+    const storiesList = [...igStories, ...igStories]; // Duplicate for infinite scroll
     return (
-      <div className={styles.storiesRow}>
-        {igStories.map((story, i) => (
-          <div key={story.id} onClick={() => setViewingStory(i)} style={{ cursor: 'pointer' }}>
-            <div className={styles.storyRing}>
-              <div className={styles.storyRingInner}>
-                {story.media_type === 'VIDEO' ? (
-                  <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #833AB4, #FD1D1D)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span style={{ fontSize: 12, color: '#fff' }}>▶</span>
-                  </div>
-                ) : (
-                  <img src={story.media_url} alt="" className={styles.storyThumb} loading="lazy" />
-                )}
+      <div className={styles.storiesScroll}>
+        <div className={styles.storiesTrack}>
+          {storiesList.map((story, i) => (
+            <div key={`${story.id}-${i}`} onClick={() => setViewingStory(i % igStories.length)} style={{ cursor: 'pointer' }}>
+              <div className={styles.storyRing}>
+                <div className={styles.storyRingInner}>
+                  {story.media_type === 'VIDEO' ? (
+                    <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #833AB4, #FD1D1D)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span style={{ fontSize: 12, color: '#fff' }}>▶</span>
+                    </div>
+                  ) : (
+                    <img src={story.media_url} alt="" className={styles.storyThumb} loading="lazy" />
+                  )}
+                </div>
               </div>
+              <p className={styles.storyLabel}>Story {(i % igStories.length) + 1}</p>
             </div>
-            <p className={styles.storyLabel}>Story {i + 1}</p>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     );
   };
@@ -262,51 +265,57 @@ export default function SocialSidebar() {
     }
 
     if (useRealIG) {
+      const loopedPosts = [...igPosts, ...igPosts]; // Duplicate for infinite scroll
       return (
-        <div className={styles.igFeed}>
-          {igPosts.map((post) => (
-            <a key={post.id} href={post.permalink} target="_blank" rel="noopener noreferrer" className={styles.igPost}>
-              <div className={styles.igPostImage}>
-                {post.media_type === 'VIDEO' ? (
-                  <img
-                    src={post.thumbnail_url || post.media_url}
-                    alt={post.caption?.slice(0, 60) || 'Paddock Lounge'}
-                    className={styles.igPostImg}
-                    loading="lazy"
-                  />
-                ) : (
-                  <img
-                    src={post.media_url}
-                    alt={post.caption?.slice(0, 60) || 'Paddock Lounge'}
-                    className={styles.igPostImg}
-                    loading="lazy"
-                  />
-                )}
-              </div>
-              <div className={styles.igPostFooter}>
-                <span className={styles.igAction}>♡ {formatCount(post.like_count)}</span>
-                <span className={styles.igAction}>💬 {post.comments_count}</span>
-              </div>
-            </a>
-          ))}
+        <div className={styles.feedScroll}>
+          <div className={`${styles.igFeed} ${styles.feedTrack}`}>
+            {loopedPosts.map((post, i) => (
+              <a key={`${post.id}-${i}`} href={post.permalink} target="_blank" rel="noopener noreferrer" className={styles.igPost}>
+                <div className={styles.igPostImage}>
+                  {post.media_type === 'VIDEO' ? (
+                    <img
+                      src={post.thumbnail_url || post.media_url}
+                      alt={post.caption?.slice(0, 60) || 'Paddock Lounge'}
+                      className={styles.igPostImg}
+                      loading="lazy"
+                    />
+                  ) : (
+                    <img
+                      src={post.media_url}
+                      alt={post.caption?.slice(0, 60) || 'Paddock Lounge'}
+                      className={styles.igPostImg}
+                      loading="lazy"
+                    />
+                  )}
+                </div>
+                <div className={styles.igPostFooter}>
+                  <span className={styles.igAction}>♡ {formatCount(post.like_count)}</span>
+                  <span className={styles.igAction}>💬 {post.comments_count}</span>
+                </div>
+              </a>
+            ))}
+          </div>
         </div>
       );
     }
 
     // Fallback: hardcoded gradient posts
+    const loopedFallback = [...FALLBACK_IG_POSTS, ...FALLBACK_IG_POSTS];
     return (
-      <div className={styles.igFeed}>
-        {FALLBACK_IG_POSTS.map((post, i) => (
-          <a key={i} href={profile.link} target="_blank" rel="noopener noreferrer" className={styles.igPost}>
-            <div className={styles.igPostImage} style={{ background: post.g }}>
-              <span className={styles.igEmoji}>{post.tag}</span>
-            </div>
-            <div className={styles.igPostFooter}>
-              <span className={styles.igAction}>♡ {post.likes}</span>
-              <span className={styles.igAction}>💬 {post.comments}</span>
-            </div>
-          </a>
-        ))}
+      <div className={styles.feedScroll}>
+        <div className={`${styles.igFeed} ${styles.feedTrack}`}>
+          {loopedFallback.map((post, i) => (
+            <a key={i} href={profile.link} target="_blank" rel="noopener noreferrer" className={styles.igPost}>
+              <div className={styles.igPostImage} style={{ background: post.g }}>
+                <span className={styles.igEmoji}>{post.tag}</span>
+              </div>
+              <div className={styles.igPostFooter}>
+                <span className={styles.igAction}>♡ {post.likes}</span>
+                <span className={styles.igAction}>💬 {post.comments}</span>
+              </div>
+            </a>
+          ))}
+        </div>
       </div>
     );
   };
@@ -320,35 +329,39 @@ export default function SocialSidebar() {
         </>
       )}
       {active === 'tiktok' && (
-        <div className={styles.ttList}>
-          {POSTS_TT.map((post, i) => (
-            <a key={i} href={profile.link} target="_blank" rel="noopener noreferrer" className={styles.ttItem}>
-              <div className={styles.ttThumb} style={{ background: post.g }}>
-                <span className={styles.ttPlay}>▶</span>
-                <span className={styles.ttViews}>▶ {post.views}</span>
-              </div>
-              <div className={styles.ttInfo}>
-                <p className={styles.ttCap}>{post.cap}</p>
-                <p className={styles.ttMeta}>♡ {post.likes}</p>
-              </div>
-            </a>
-          ))}
+        <div className={styles.feedScroll}>
+          <div className={`${styles.ttList} ${styles.feedTrack}`}>
+            {[...POSTS_TT, ...POSTS_TT].map((post, i) => (
+              <a key={i} href={profile.link} target="_blank" rel="noopener noreferrer" className={styles.ttItem}>
+                <div className={styles.ttThumb} style={{ background: post.g }}>
+                  <span className={styles.ttPlay}>▶</span>
+                  <span className={styles.ttViews}>▶ {post.views}</span>
+                </div>
+                <div className={styles.ttInfo}>
+                  <p className={styles.ttCap}>{post.cap}</p>
+                  <p className={styles.ttMeta}>♡ {post.likes}</p>
+                </div>
+              </a>
+            ))}
+          </div>
         </div>
       )}
       {active === 'youtube' && (
-        <div className={styles.ytList}>
-          {POSTS_YT.map((post, i) => (
-            <a key={i} href={profile.link} target="_blank" rel="noopener noreferrer" className={styles.ytItem}>
-              <div className={styles.ytThumb} style={{ background: post.g }}>
-                <span className={styles.ytPlay}>▶</span>
-                <span className={styles.ytDur}>{post.dur}</span>
-              </div>
-              <div className={styles.ytInfo}>
-                <p className={styles.ytTitle}>{post.title}</p>
-                <p className={styles.ytMeta}>{post.views} views · {post.time}</p>
-              </div>
-            </a>
-          ))}
+        <div className={styles.feedScroll}>
+          <div className={`${styles.ytList} ${styles.feedTrack}`}>
+            {[...POSTS_YT, ...POSTS_YT].map((post, i) => (
+              <a key={i} href={profile.link} target="_blank" rel="noopener noreferrer" className={styles.ytItem}>
+                <div className={styles.ytThumb} style={{ background: post.g }}>
+                  <span className={styles.ytPlay}>▶</span>
+                  <span className={styles.ytDur}>{post.dur}</span>
+                </div>
+                <div className={styles.ytInfo}>
+                  <p className={styles.ytTitle}>{post.title}</p>
+                  <p className={styles.ytMeta}>{post.views} views · {post.time}</p>
+                </div>
+              </a>
+            ))}
+          </div>
         </div>
       )}
     </>
