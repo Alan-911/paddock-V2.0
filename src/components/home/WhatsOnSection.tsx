@@ -26,9 +26,9 @@ export default async function WhatsOnSection() {
               @paddocklounge_f1
             </a>
             <div className={styles.igStats}>
-              <div className={styles.igStat}><strong>342</strong> Posts</div>
-              <div className={styles.igStat}><strong>2,205</strong> Followers</div>
-              <div className={styles.igStat}><strong>120</strong> Following</div>
+              <div className={styles.igStat}><strong>114</strong> Posts</div>
+              <div className={styles.igStat}><strong>10K</strong> Followers</div>
+              <div className={styles.igStat}><strong>103</strong> Following</div>
             </div>
           </div>
         </div>
