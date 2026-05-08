@@ -3,15 +3,14 @@
    Always visible in hero, IG open by default
    ============================================================ */
 
-/* Outer wrapper — row layout: icons left, panel right */
 .wrapper {
   display: flex;
   align-items: flex-start;
-  width: 280px; /* Reduced from 320px */
-  height: 350px; /* Reduced from 390px */
+  width: 280px;
+  height: 500px;
   flex-shrink: 0;
   align-self: flex-start;
-  gap: 2px; /* Almost attached */
+  gap: 2px;
 }
 
 /* ====== Icon tabs (vertical column on left, aligned to top) ====== */
@@ -576,7 +575,7 @@
 @media (max-width: 1100px) {
   .wrapper {
     width: 240px;
-    height: 320px;
+    height: 450px;
   }
 }
 
